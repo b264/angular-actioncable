@@ -7,7 +7,7 @@
     "Brian Giaraffa",
     "Cristian Dugacicu"
   ],
-  "license": "UNLICENSED",
+  "license": "UNLICENSED","private": true,
   "keywords": [
     "angular",
     "actioncable",
