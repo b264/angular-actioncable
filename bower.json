@@ -1,0 +1,32 @@
+{
+  "name": "angular-actioncable",
+  "version": "0.0.1",
+  "description": "Connect Angular to ActionCable",
+  "main": "angular-actioncable.js",
+  "authors": [
+    "Brian Giaraffa",
+    "Cristian Dugacicu"
+  ],
+  "license": "UNLICENSED",
+  "keywords": [
+    "angular",
+    "actioncable",
+    "rails"
+  ],
+  "homepage": "https://github.com/angular-actioncable/angular-actioncable#readme",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+  },
+  "devDependencies": {
+  },
+  "resolutions": {
+  }
+}
