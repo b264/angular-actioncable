@@ -7,6 +7,10 @@
     "Brian Giaraffa",
     "Cristian Dugacicu"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/invisible-industries/angular-actioncable.git"
+  },
   "license": "UNLICENSED",
   "private": true,
   "keywords": [
@@ -24,7 +28,9 @@
     "tests"
   ],
   "dependencies": {
+    "angular": "*",
     "angular-websocket": "^1.1.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+  }
 }
