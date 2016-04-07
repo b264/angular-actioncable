@@ -1,3 +1,5 @@
+var ngActionCable = angular.module('ngActionCable',['ngWebSocket']);
+
 
 // default websocket configs
 // looks for Rails' <%= action_cable_meta_tag %> in this format:
