@@ -47,6 +47,21 @@ ngActionCable.factory('WebsocketController', function () {
     };
   };
 
+  function findActionCallbacksForChannel(channelName, params){
+    return (actions[channelName] && actions[channelName][params]);
+  }
+
+  function channel_from(message){
+    if (message && message.identifier) {
+      return JSON.parse(message.identifier).channel;
+    };
+  };
+
+  function params_from(message){
+    var paramsData= JSON.parse(message.identifier).data;
+    return JSON.stringify(paramsData);
+  }
+
 
   var methods= {
     post: function(message){
