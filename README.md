@@ -8,3 +8,8 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
 
 ## License
 UNLICENSED private
+
+
+## Setup Development
+`npm install`
+`bower install`
