@@ -15,6 +15,14 @@ ngActionCable.value('WebsocketConfig', {
 
 ngActionCable.factory('WebsocketController', function () {
 
+  var methods= {
+    post: function(message){
+      return route(message);
+    },
+    actions: actions
+  };
+
+  return methods;
 });
 
 
