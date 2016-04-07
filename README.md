@@ -63,18 +63,16 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
 
 ### Factory: `WebsocketChannel` (in module `ngActionCable`)
 
-returns instance of WebsocketChannel
+returns prototype of WebsocketChannel
 
 #### Methods
 
-name             | arguments                                              | description
------------------|--------------------------------------------------------|------------
-new              | channel_name, channelParams                            | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('YourChannel');`
-
-
-#### Properties
-name               | type             | description
--------------------|------------------|------------
+name        | arguments                                  | description
+------------|--------------------------------------------|--------------------------------------------
+new         | channel_name:String [, channelParams:Hash] | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('YourChannel');`
+subscribe   | callback:Function                          | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
+unsubscribe |                                            | Unsubscribes the callback function from the channel.
+send        | message:String, action:String              | Send a message to an action in Rails. `class YourChannel < ApplicationCable::Channel; def action(message); end; end`  `channel.send("my message", "action");`
 
 
 ## Frequently Asked Questions
