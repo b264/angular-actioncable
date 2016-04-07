@@ -207,7 +207,17 @@ ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocke
     this.onMessageCallback= null;
     this.callbacks= this._websocketControllerActions();
 
-
+    this.subscribe= function(cb){
+      if (this._subscriptionCount() === 0) { Websocket.subscribe(this.channelName, this.channelParams) };
+      this._addMessageCallback(cb);
+    }
+    this.unsubscribe= function(){
+      this._removeMessageCallback();
+      if (this._subscriptionCount() === 0) { Websocket.unsubscribe(this.channelName, this.channelParams); };
+     }
+    this.send= function(message, action){
+      Websocket.send(this.channelName, this.channelParams, message, action);
+    }
   }
 });
 
