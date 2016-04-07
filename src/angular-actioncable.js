@@ -191,9 +191,20 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
 
 ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocket){
   return function(channelName, channelParams){
+    this._websocketControllerActions= function(){
+      var _channelParamsString= JSON.stringify(this.channelParams);
+      WebsocketController.actions[this.channelName]= WebsocketController.actions[this.channelName] || {};
+      WebsocketController.actions[this.channelName][_channelParamsString]= WebsocketController.actions[this.channelName][_channelParamsString] || [];
+      return WebsocketController.actions[this.channelName][_channelParamsString];
+    }
+
+    this._subscriptionCount= function(){
+      return this.callbacks.length;
+    };
+
+
 
   }
-
 });
 
 
