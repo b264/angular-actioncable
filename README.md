@@ -59,6 +59,24 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
   </script>
 ```
 
+## API
+
+### Factory: `WebsocketChannel` (in module `ngActionCable`)
+
+returns instance of WebsocketChannel
+
+#### Methods
+
+name             | arguments                                              | description
+-----------------|--------------------------------------------------------|------------
+new              | channel_name, channelParams                            | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('YourChannel');`
+
+
+#### Properties
+name               | type             | description
+-------------------|------------------|------------
+
+
 ## Frequently Asked Questions
 
  * *Q.*: What if the browser doesn't support WebSockets?
