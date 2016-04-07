@@ -104,3 +104,9 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
   };
   return methods;
 });
+
+ngActionCable.factory("SocketWrangler", function(Websocket) {
+  var methods= {
+  };
+  return methods;
+});
