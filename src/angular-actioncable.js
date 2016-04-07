@@ -15,6 +15,20 @@ ngActionCable.value('WebsocketConfig', {
 
 ngActionCable.factory('WebsocketController', function () {
 
+  var actions = {
+    welcome: function(message){
+      // console.log('willkommen');
+    },
+    ping: function(message){
+      // console.log('WS ping');
+    },
+    confirm_subscription: function(message){
+      // console.log('WS confirm_subscription on channel: ' + message.identifier);
+    },
+    ws_404: function(message){
+      // console.log('Route not found: ' + message);
+    }
+  };
 
   var route = function(message){
     if (!!actions[message.type]) {
