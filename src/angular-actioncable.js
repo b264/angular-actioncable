@@ -131,6 +131,27 @@ ngActionCable.factory("SocketWrangler", function(Websocket) {
     console.log("open callback");
   };
   var methods= {
+    connected: function(){
+      return (_live && !_connecting);
+    },
+    connecting: function(){
+      return (_live && !!_connecting);
+    },
+    disconnected: function(){
+      return !_live;
+    },
+    start: function(){
+      console.info("Live STARTED");
+      _live= true;
+      startInterval();
+      connectNow();
+    },
+    stop: function(){
+      console.info("Live stopped");
+      _live= false;
+      stopInterval();
+      websocket.close();
+    }
   };
   return methods;
 });
