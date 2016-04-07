@@ -218,6 +218,25 @@ ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocke
     this.send= function(message, action){
       Websocket.send(this.channelName, this.channelParams, message, action);
     }
+
+    this._addMessageCallback= function(cb){
+      this.onMessageCallback= cb;
+      this.callbacks.push(this.onMessageCallback);
+    }
+
+    this._removeMessageCallback= function(){
+      for(var i=0; i<this.callbacks.length; i++){
+        if (this.callbacks[i]===this.onMessageCallback) {
+          this.callbacks.splice(i, 1);
+          this.onMessageCallback= null;
+          return true;
+        }
+      }
+      console.log("Callbacks:"); console.log(this.callbacks);
+      console.log("onMessageCallback:"); console.log(this.onMessageCallback);
+      throw "can't find onMessageCallback in callbacks array to remove"
+    }
+
   }
 });
 
