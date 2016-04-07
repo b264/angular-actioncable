@@ -1,13 +1,13 @@
-// SocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
+// ngActionCableSocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
 //
 // Current status is denoted by three booleans:
 // connected(), connecting(), and disconnected(), in an abstraction
 // of the internal trivalent logic. Exactly one will be true at all times.
 //
 // Actions are start() and stop()
-ngActionCable.factory("SocketWrangler", function(Websocket) {
+ngActionCable.factory("ngActionCableSocketWrangler", function(ngActionCableWebsocket) {
   var intervalTime= 8647;
-  var websocket= Websocket;
+  var websocket= ngActionCableWebsocket;
   var _live= false;
   var _connecting= false;
   var connectNow= function(){
