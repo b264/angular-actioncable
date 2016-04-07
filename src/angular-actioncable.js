@@ -28,6 +28,15 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
         "identifier": JSON.stringify({"channel": channel, "data": data})
       }));
   };
+  var send_to = function(channel, data, message, action){
+    if (typeof(data)==='undefined') data = "N/A";
+    console.log("=> sending to: " + channel)
+    new_data_stream().send(JSON.stringify({
+        "command": "message",
+        "identifier": JSON.stringify({"channel": channel, "data": data}),
+        "data": JSON.stringify({"message": message, "action": action})
+      }));
+  };
   var new_data_stream = function(){
     if(dataStream == null) {
       dataStream = $websocket(wsUrl);
