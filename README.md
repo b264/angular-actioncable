@@ -7,6 +7,7 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
 
 ```html
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
+  <script src="bower_components/angular-websocket/angular-websocket.min.js"></script>
   <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
   <section ng-controller="SomeController">
     <ul>
