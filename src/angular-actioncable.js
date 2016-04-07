@@ -15,6 +15,19 @@ ngActionCable.value('WebsocketConfig', {
 
 ngActionCable.factory('WebsocketController', function () {
 
+
+  var route = function(message){
+    if (!!actions[message.type]) {
+      actions[message.type](message);
+    } else if (!!findActionCallbacksForChannel(channel_from(message), params_from(message))) {
+      var actionCallbacks= findActionCallbacksForChannel(channel_from(message), params_from(message));
+      routeToActions(actionCallbacks, message.message);
+    } else {
+      actions.ws_404(message);
+    };
+  };
+
+
   var methods= {
     post: function(message){
       return route(message);
