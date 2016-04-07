@@ -1,83 +1,66 @@
-var ngActionCable = angular.module('ngActionCable',['ngWebSocket']);
+var ngActionCable= angular.module('ngActionCable', ['ngWebSocket']);
 
-
-// default websocket configs
-// looks for Rails' <%= action_cable_meta_tag %> in this format:
-// <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
-ngActionCable.value('WebsocketConfig', {
-  autoStart: true,
-  wsUri: angular.element("meta[name='action-cable-url']").attr("content") || "",
-  debug: false
-});
-
-
-
-ngActionCable.factory('WebsocketController', function () {
-
-  // add a hash of callbacks here that `route_channel` will call on an incoming message.
-  // actions format: actions[channelName][dataParams] = [callback1, callback2, ...]
-  // e.g. actions["GlobalsData"][JSON.stringify({"responder_id":1})]= [function(message){...}, assignment_2: function(message){...}, ... ]
-  var actions = {
-    welcome: function(message){
-      // console.log('willkommen');
+// SocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
+//
+// Current status is denoted by three booleans:
+// connected(), connecting(), and disconnected(), in an abstraction
+// of the internal trivalent logic. Exactly one will be true at all times.
+//
+// Actions are start() and stop()
+ngActionCable.factory("SocketWrangler", function(Websocket) {
+  var intervalTime= 8647;
+  var websocket= Websocket;
+  var _live= false;
+  var _connecting= false;
+  var connectNow= function(){
+    websocket.attempt_restart();
+  };
+  var startInterval= function(){
+    _connecting= _connecting || setInterval(function(){
+      connectNow();
+    }, intervalTime);
+  };
+  var stopInterval= function(){
+    clearInterval(_connecting);
+    _connecting= false;
+  };
+  websocket.on_connection_close_callback = function(){
+    if (_live) { startInterval(); };
+    console.log("close callback");
+  };
+  websocket.on_connection_open_callback = function(){
+    stopInterval();
+    console.log("open callback");
+  };
+  var methods= {
+    connected: function(){
+      return (_live && !_connecting);
     },
-    ping: function(message){
-      // console.log('WS ping');
+    connecting: function(){
+      return (_live && !!_connecting);
     },
-    confirm_subscription: function(message){
-      // console.log('WS confirm_subscription on channel: ' + message.identifier);
+    disconnected: function(){
+      return !_live;
     },
-    ws_404: function(message){
-      // console.log('Route not found: ' + message);
+    start: function(){
+      console.info("Live STARTED");
+      _live= true;
+      startInterval();
+      connectNow();
+    },
+    stop: function(){
+      console.info("Live stopped");
+      _live= false;
+      stopInterval();
+      websocket.close();
     }
   };
-
-  var routeToActions= function(actionCallbacks, message){
-    angular.forEach(actionCallbacks, function(func, id){
-      func.apply(null, [message]);
-    });
-  }
-
-  var route = function(message){
-    if (!!actions[message.type]) {
-      actions[message.type](message);
-    } else if (!!findActionCallbacksForChannel(channel_from(message), params_from(message))) {
-      var actionCallbacks= findActionCallbacksForChannel(channel_from(message), params_from(message));
-      routeToActions(actionCallbacks, message.message);
-    } else {
-      actions.ws_404(message);
-    };
-  };
-
-
-  function findActionCallbacksForChannel(channelName, params){
-    return (actions[channelName] && actions[channelName][params]);
-  }
-
-  function channel_from(message){
-    if (message && message.identifier) {
-      return JSON.parse(message.identifier).channel;
-    };
-  };
-
-  function params_from(message){
-    var paramsData= JSON.parse(message.identifier).data;
-    return JSON.stringify(paramsData);
-  }
-
-
-  var methods= {
-    post: function(message){
-      return route(message);
-    },
-    actions: actions
-  };
-
   return methods;
 });
 
-// ActionCable formats:
-// ! Indentifier for subscribe, unsubscribe and message must be the same.
+// ActionCable JSON formats:
+//
+// "identifier" for subscribe, unsubscribe and message must be the same to refer the same subscription!
 //
 // {
 //   "command": "subscribe",
@@ -98,8 +81,6 @@ ngActionCable.factory('WebsocketController', function () {
 // }
 //  - will call foobar(data)
 //  - will set params to ["identifier"]["data"]
-
-
 
 
 ngActionCable.factory("Websocket", function($websocket, WebsocketController, WebsocketConfig) {
@@ -187,8 +168,6 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
   return methods;
 });
 
-
-
 ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
@@ -239,62 +218,75 @@ ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocke
   }
 });
 
+// default websocket configs
+// looks for Rails' <%= action_cable_meta_tag %> in this format:
+// <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
+ngActionCable.value('WebsocketConfig', {
+    autoStart: true,
+    wsUri: angular.element("meta[name='action-cable-url']").attr("content") || "",
+    debug: false
+  });
 
+ngActionCable.factory('WebsocketController', function () {
 
-// SocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
-//
-// Current status is denoted by three booleans:
-// connected(), connecting(), and disconnected(), in an abstraction
-// of the internal trivalent logic. Exactly one will be true at all times.
-//
-// Actions are start() and stop()
-ngActionCable.factory("SocketWrangler", function(Websocket) {
-  var intervalTime= 8647;
-  var websocket= Websocket;
-  var _live= false;
-  var _connecting= false;
-  var connectNow= function(){
-    websocket.attempt_restart();
-  };
-  var startInterval= function(){
-    _connecting= _connecting || setInterval(function(){
-      connectNow();
-    }, intervalTime);
-  };
-  var stopInterval= function(){
-    clearInterval(_connecting);
-    _connecting= false;
-  };
-  websocket.on_connection_close_callback = function(){
-    if (_live) { startInterval(); };
-    console.log("close callback");
-  };
-  websocket.on_connection_open_callback = function(){
-    stopInterval();
-    console.log("open callback");
-  };
-  var methods= {
-    connected: function(){
-      return (_live && !_connecting);
+  // add a hash of callbacks here that `route_channel` will call on an incoming message.
+  // actions format: actions[channelName][dataParams] = [callback1, callback2, ...]
+  // e.g. actions["GlobalsData"][JSON.stringify({"responder_id":1})]= [function(message){...}, assignment_2: function(message){...}, ... ]
+  var actions = {
+    welcome: function(message){
+      // console.log('willkommen');
     },
-    connecting: function(){
-      return (_live && !!_connecting);
+    ping: function(message){
+      // console.log('WS ping');
     },
-    disconnected: function(){
-      return !_live;
+    confirm_subscription: function(message){
+      // console.log('WS confirm_subscription on channel: ' + message.identifier);
     },
-    start: function(){
-      console.info("Live STARTED");
-      _live= true;
-      startInterval();
-      connectNow();
-    },
-    stop: function(){
-      console.info("Live stopped");
-      _live= false;
-      stopInterval();
-      websocket.close();
+    ws_404: function(message){
+      // console.log('Route not found: ' + message);
     }
   };
+
+  var routeToActions= function(actionCallbacks, message){
+    angular.forEach(actionCallbacks, function(func, id){
+      func.apply(null, [message]);
+    });
+  }
+
+  var route = function(message){
+    if (!!actions[message.type]) {
+      actions[message.type](message);
+    } else if (!!findActionCallbacksForChannel(channel_from(message), params_from(message))) {
+      var actionCallbacks= findActionCallbacksForChannel(channel_from(message), params_from(message));
+      routeToActions(actionCallbacks, message.message);
+    } else {
+      actions.ws_404(message);
+    };
+  };
+
+
+  function findActionCallbacksForChannel(channelName, params){
+    return (actions[channelName] && actions[channelName][params]);
+  }
+
+  function channel_from(message){
+    if (message && message.identifier) {
+      return JSON.parse(message.identifier).channel;
+    };
+  };
+
+  function params_from(message){
+    var paramsData= JSON.parse(message.identifier).data;
+    return JSON.stringify(paramsData);
+  }
+
+
+  var methods= {
+    post: function(message){
+      return route(message);
+    },
+    actions: actions
+  };
+
   return methods;
 });

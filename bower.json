@@ -2,7 +2,7 @@
   "name": "angular-actioncable",
   "version": "0.0.1",
   "description": "Connect Angular to ActionCable",
-  "main": "./src/angular-actioncable.js",
+  "main": "./dist/angular-actioncable.min.js",
   "authors": [
     "Brian Giaraffa",
     "Cristian Dugacicu"

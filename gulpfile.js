@@ -2,11 +2,11 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var ngAnnotate = require('gulp-ng-annotate');
 var path = require('path');
 var plumber = require('gulp-plumber');
 var jshint = require('gulp-jshint');
 var eventStream = require('event-stream');
-
 
 // Root directory
 var rootDirectory = path.resolve('./');
@@ -31,7 +31,8 @@ gulp.task('build', function() {
     .pipe(plumber())
     .pipe(concat('angular-actioncable.js'))
     .pipe(gulp.dest('./dist/'))
-    .pipe(uglify())
+    .pipe(ngAnnotate())
+    .pipe(uglify({mangle: false}))
     .pipe(rename('angular-actioncable.min.js'))
     .pipe(gulp.dest('./dist/'));
 });
