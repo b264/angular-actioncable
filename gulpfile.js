@@ -32,7 +32,7 @@ gulp.task('build', function() {
     .pipe(concat('angular-actioncable.js'))
     .pipe(gulp.dest('./dist/'))
     .pipe(ngAnnotate())
-    .pipe(uglify())
+    .pipe(uglify({mangle: false}))
     .pipe(rename('angular-actioncable.min.js'))
     .pipe(gulp.dest('./dist/'));
 });
