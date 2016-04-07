@@ -190,7 +190,9 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
 
 
 ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocket){
+  return function(channelName, channelParams){
 
+  }
 
 });
 
