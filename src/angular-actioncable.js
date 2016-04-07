@@ -1,6 +1,17 @@
 ngActionCable.factory("Websocket", function($websocket, WebsocketController, WebsocketConfig) {
   var wsUrl = WebsocketConfig.wsUri;
+  var controller = WebsocketController;
   var dataStream = null;
+  var methods;
+  var connected = false;
+  var currentChannels = [];
+  var close_connection = function(){
+    if (dataStream){
+      dataStream.close({"force":true});
+      dataStream = null;
+      connected = false;
+    };
+  };
   var new_data_stream = function(){
     if(dataStream == null) {
       dataStream = $websocket(wsUrl);
