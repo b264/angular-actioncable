@@ -23,9 +23,9 @@
 //  - will set params to ["identifier"]["data"]
 
 
-ngActionCable.factory("ngActionCableWebsocket", function($websocket, ngActionCableController, ngActionCableConfig) {
-  var wsUrl = ngActionCableConfig.wsUri;
-  var controller = ngActionCableController;
+ngActionCable.factory("ActionCableWebsocket", function($websocket, ActionCableController, ActionCableConfig) {
+  var wsUrl = ActionCableConfig.wsUri;
+  var controller = ActionCableController;
   var dataStream = null;
   var methods;
   var connected = false;

@@ -1,10 +1,10 @@
-ngActionCable.factory("ActionCableChannel",function (ngActionCableController, ngActionCableWebsocket){
+ngActionCable.factory("ActionCableChannel",function (ActionCableController, ActionCableWebsocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
       var _channelParamsString= JSON.stringify(this.channelParams);
-      ngActionCableController.actions[this.channelName]= ngActionCableController.actions[this.channelName] || {};
-      ngActionCableController.actions[this.channelName][_channelParamsString]= ngActionCableController.actions[this.channelName][_channelParamsString] || [];
-      return ngActionCableController.actions[this.channelName][_channelParamsString];
+      ActionCableController.actions[this.channelName]= ActionCableController.actions[this.channelName] || {};
+      ActionCableController.actions[this.channelName][_channelParamsString]= ActionCableController.actions[this.channelName][_channelParamsString] || [];
+      return ActionCableController.actions[this.channelName][_channelParamsString];
     }
 
     this._subscriptionCount= function(){
@@ -17,15 +17,15 @@ ngActionCable.factory("ActionCableChannel",function (ngActionCableController, ng
     this.callbacks= this._websocketControllerActions();
 
     this.subscribe= function(cb){
-      if (this._subscriptionCount() === 0) { ngActionCableWebsocket.subscribe(this.channelName, this.channelParams) };
+      if (this._subscriptionCount() === 0) { ActionCableWebsocket.subscribe(this.channelName, this.channelParams) };
       this._addMessageCallback(cb);
     }
     this.unsubscribe= function(){
       this._removeMessageCallback();
-      if (this._subscriptionCount() === 0) { ngActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      if (this._subscriptionCount() === 0) { ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
      }
     this.send= function(message, action){
-      ngActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
+      ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
     }
 
     this._addMessageCallback= function(cb){

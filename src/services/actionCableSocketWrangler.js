@@ -5,9 +5,9 @@
 // of the internal trivalent logic. Exactly one will be true at all times.
 //
 // Actions are start() and stop()
-ngActionCable.factory("ngActionCableSocketWrangler", function(ngActionCableWebsocket) {
+ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket) {
   var intervalTime= 8647;
-  var websocket= ngActionCableWebsocket;
+  var websocket= ActionCableWebsocket;
   var _live= false;
   var _connecting= false;
   var connectNow= function(){

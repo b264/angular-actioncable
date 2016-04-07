@@ -1,4 +1,4 @@
-ngActionCable.factory('ngActionCableController', function () {
+ngActionCable.factory('ActionCableController', function () {
 
   // add a hash of callbacks here that `route_channel` will call on an incoming message.
   // actions format: actions[channelName][dataParams] = [callback1, callback2, ...]
