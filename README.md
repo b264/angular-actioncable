@@ -6,6 +6,7 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
 #### The One-Liner. (not recommended, but possible)
 
 ```html
+  <%= action_cable_meta_tag %>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   <script src="bower_components/angular-websocket/angular-websocket.min.js"></script>
   <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
@@ -22,7 +23,9 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
     ])
     .controller('SomeController', function ($scope, WebsocketChannel) {
       $scope.MyData = [];
-      (new WebsocketChannel("YourChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
+
+      (new WebsocketChannel("MyChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
+
     });
   </script>
 ```
@@ -30,6 +33,7 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
 #### A better way
 
 ```html
+  <%= action_cable_meta_tag %>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   <script src="bower_components/angular-websocket/angular-websocket.min.js"></script>
   <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
@@ -46,8 +50,9 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
     ])
     .controller('SomeController', function ($scope, WebsocketChannel) {
       $scope.MyData = [];
+
       var channelParams = {user: 42, chat: 37};
-      var channel = new WebsocketChannel("YourChannel", channelParams));
+      var channel = new WebsocketChannel("MyChannel", channelParams));
       var callback = function(message){
         $scope.MyData.unshift(message);
       };
@@ -55,27 +60,51 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
       $scope.$on("$destroy", function(){
         channel.unsubscribe();
       });
+
     });
   </script>
+```
+
+```ruby
+class MyChannel < ApplicationCable::Channel
+  def action(message)
+  end
+end
 ```
 
 ## API
 
 ### Factory: `WebsocketChannel` (in module `ngActionCable`)
 
-returns instance of WebsocketChannel
+_constructor function_
 
-#### Methods
+##### Methods
+name        | arguments                                              | description
+------------|--------------------------------------------------------|--------------------------------------------
+new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('MyChannel');`
+subscribe   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
+unsubscribe |                                                        | Unsubscribes the callback function from the channel.
+send        | message:String<br />action:String                      | Send a message to an action in Rails. `def action(message); end`  `channel.send("message", "action");`
 
-name             | arguments                                              | description
------------------|--------------------------------------------------------|------------
-new              | channel_name, channelParams                            | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('YourChannel');`
+### Factory: `SocketWrangler` (in module `ngActionCable`)
 
+_singleton_
 
-#### Properties
-name               | type             | description
--------------------|------------------|------------
+##### Methods
+name        | arguments                                              | description
+------------|--------------------------------------------------------|--------------------------------------------
+start       |                                                        | Starts ngActionCable services. `SocketWrangler.start();`<br />This will start by default unless disabled.
+stop        |                                                        | Stops ngActionCable services. `SocketWrangler.stop();`
 
+##### Properties
+
+_Exactly one will be true at all times._
+
+name             | type              | description
+-----------------|-------------------|------------
+connected        | Function:Boolean  | ngActionCable is started and connected live. `SocketWrangler.connected();`
+connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection. `SocketWrangler.connecting();`
+disconnected     | Function:Boolean  | ngActionCable is stopped and not connected. `SocketWrangler.disconnected();`
 
 ## Frequently Asked Questions
 
