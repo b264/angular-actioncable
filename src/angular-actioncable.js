@@ -30,6 +30,12 @@ ngActionCable.factory('WebsocketController', function () {
     }
   };
 
+  var routeToActions= function(actionCallbacks, message){
+    angular.forEach(actionCallbacks, function(func, id){
+      func.apply(null, [message]);
+    });
+  }
+
   var route = function(message){
     if (!!actions[message.type]) {
       actions[message.type](message);
