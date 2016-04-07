@@ -187,6 +187,15 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
   return methods;
 });
 
+
+
+ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocket){
+
+
+});
+
+
+
 // SocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
 //
 // Current status is denoted by three booleans:
