@@ -23,7 +23,7 @@
 //  - will set params to ["identifier"]["data"]
 
 
-ngActionCable.factory("Websocket", function($websocket, WebsocketController, WebsocketConfig) {
+angular.module('ngActionCable.service',['ngWebSocket']).factory("Websocket", function($websocket, WebsocketController, WebsocketConfig) {
   var wsUrl = WebsocketConfig.wsUri;
   var controller = WebsocketController;
   var dataStream = null;

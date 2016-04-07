@@ -5,7 +5,7 @@
 // of the internal trivalent logic. Exactly one will be true at all times.
 //
 // Actions are start() and stop()
-ngActionCable.factory("SocketWrangler", function(Websocket) {
+angular.module('ngActionCable.service',[]).factory("SocketWrangler", function(Websocket) {
   var intervalTime= 8647;
   var websocket= Websocket;
   var _live= false;
