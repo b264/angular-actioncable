@@ -106,6 +106,27 @@ connected        | Function:Boolean  | ngActionCable is started and connected li
 connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection. `SocketWrangler.connecting();`
 disconnected     | Function:Boolean  | ngActionCable is stopped and not connected. `SocketWrangler.disconnected();`
 
+### Configuration: `WebsocketConfig` (in module `ngActionCable`)
+
+_value_
+
+##### Properties
+
+_You can override the defaults._
+
+name      | type    | description
+----------|---------|------------
+wsUri     | String  | URI to connect ngActionCable to ActionCable.  If this is inside Rails, it will be read from the action_cable_meta_tag but can still be overridden.
+autoStart | Boolean | Connect automatically? `WebsocketConfig.autoStart= false;` default is true.
+debug     | Boolean | Show verbose logs. `WebsocketConfig.debug= true;` default is false.
+
+```javascript
+my_app.run(function (WebsocketConfig) {
+  WebsocketConfig.wsUri= "ws://example.com/cable";
+  WebsocketConfig.autoStart= false;
+});
+```
+
 ## Frequently Asked Questions
 
  * *Q.*: What if the browser doesn't support WebSockets?
