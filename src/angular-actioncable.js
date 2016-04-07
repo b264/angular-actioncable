@@ -1,3 +1,25 @@
+// ActionCable formats:
+// ! Indentifier for subscribe, unsubscribe and message must be the same.
+
+// {
+//   "command": "subscribe",
+//   "identifier": JSON.stringify({"channel": "UpdatesChannel",  "data": "name"}),
+// }
+//  - will set params to ["identifier"]["data"]
+
+// {
+//   "command": "unsubscribe",
+//   "identifier": JSON.stringify({"channel": "UpdatesChannel",  "data": "name"}),
+// }
+//  - will set params to ["identifier"]["data"]
+
+// {
+//   "command": "message",
+//   "identifier": JSON.stringify({"channel": "UpdatesChannel",  "data": "name"}),
+//   "data": JSON.stringify({"message": "bla bla", "action": "foobar"})
+// }
+//  - will call foobar(data)
+//  - will set params to ["identifier"]["data"]
 ngActionCable.factory("Websocket", function($websocket, WebsocketController, WebsocketConfig) {
   var wsUrl = WebsocketConfig.wsUri;
   var controller = WebsocketController;
