@@ -43,12 +43,14 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
         {{ datum }}
       </li>
     </ul>
+    <input ng-model="input_text" /><button ng-click="sendToMyChannel(input_text)">Send</button>
   </section>
   <script>
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
     .controller('SomeController', function ($scope, WebsocketChannel) {
+      $scope.input_text = "";
       $scope.MyData = [];
 
       var channelParams = {user: 42, chat: 37};
@@ -57,6 +59,7 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
         $scope.MyData.unshift(message);
       };
       channel.subscribe(callback);
+      $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message') };
       $scope.$on("$destroy", function(){
         channel.unsubscribe();
       });
@@ -67,7 +70,9 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
 
 ```ruby
 class MyChannel < ApplicationCable::Channel
-  def action(message)
+  # ...
+  def send_a_message(message)
+    # ...
   end
 end
 ```
@@ -84,7 +89,7 @@ name        | arguments                                              | descripti
 new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('MyChannel');`
 subscribe   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
 unsubscribe |                                                        | Unsubscribes the callback function from the channel.
-send        | message:String<br />action:String                      | Send a message to an action in Rails. `def action(message); end`  `channel.send("message", "action");`
+send        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
 
 ### Factory: `SocketWrangler` (in module `ngActionCable`)
 
