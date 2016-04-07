@@ -21,10 +21,10 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
-    .controller('SomeController', function ($scope, WebsocketChannel) {
+    .controller('SomeController', function ($scope, ngActionCableChannel) {
       $scope.MyData = [];
 
-      (new WebsocketChannel("MyChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
+      (new ngActionCableChannel("MyChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
 
     });
   </script>
@@ -49,12 +49,12 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
-    .controller('SomeController', function ($scope, WebsocketChannel) {
+    .controller('SomeController', function ($scope, ngActionCableChannel) {
       $scope.input_text = "";
       $scope.MyData = [];
 
       var channelParams = {user: 42, chat: 37};
-      var channel = new WebsocketChannel("MyChannel", channelParams));
+      var channel = new ngActionCableChannel("MyChannel", channelParams));
       var callback = function(message){
         $scope.MyData.unshift(message);
       };
@@ -79,27 +79,27 @@ end
 
 ## API
 
-### Factory: `WebsocketChannel` (in module `ngActionCable`)
+### Factory: `ngActionCableChannel`
 
 _constructor function_
 
 ##### Methods
 name        | arguments                                              | description
 ------------|--------------------------------------------------------|--------------------------------------------
-new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens a WebsocketChannel instance. `var channel = new WebsocketChannel('MyChannel');`
+new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens a ngActionCableChannel instance. `var channel = new ngActionCableChannel('MyChannel');`
 subscribe   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
 unsubscribe |                                                        | Unsubscribes the callback function from the channel.
 send        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
 
-### Factory: `SocketWrangler` (in module `ngActionCable`)
+### Factory: `ngActionCableSocketWrangler`
 
 _singleton_
 
 ##### Methods
 name        | arguments                                              | description
 ------------|--------------------------------------------------------|--------------------------------------------
-start       |                                                        | Starts ngActionCable services. `SocketWrangler.start();`<br />This will start by default unless disabled.
-stop        |                                                        | Stops ngActionCable services. `SocketWrangler.stop();`
+start       |                                                        | Starts ngActionCable services. `ngActionCableSocketWrangler.start();`<br />This will start by default unless disabled.
+stop        |                                                        | Stops ngActionCable services. `ngActionCableSocketWrangler.stop();`
 
 ##### Properties
 
@@ -107,11 +107,11 @@ _Exactly one will be true at all times._
 
 name             | type              | description
 -----------------|-------------------|------------
-connected        | Function:Boolean  | ngActionCable is started and connected live. `SocketWrangler.connected();`
-connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection. `SocketWrangler.connecting();`
-disconnected     | Function:Boolean  | ngActionCable is stopped and not connected. `SocketWrangler.disconnected();`
+connected        | Function:Boolean  | ngActionCable is started and connected live. `ngActionCableSocketWrangler.connected();`
+connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection. `ngActionCableSocketWrangler.connecting();`
+disconnected     | Function:Boolean  | ngActionCable is stopped and not connected. `ngActionCableSocketWrangler.disconnected();`
 
-### Configuration: `WebsocketConfig` (in module `ngActionCable`)
+### Configuration: `ngActionCableConfig`
 
 _value_
 
@@ -122,13 +122,13 @@ _You can override the defaults._
 name      | type    | description
 ----------|---------|------------
 wsUri     | String  | URI to connect ngActionCable to ActionCable.  If this is inside Rails, it will be read from the action_cable_meta_tag but can still be overridden.
-autoStart | Boolean | Connect automatically? `WebsocketConfig.autoStart= false;` default is true.
-debug     | Boolean | Show verbose logs. `WebsocketConfig.debug= true;` default is false.
+autoStart | Boolean | Connect automatically? `ngActionCableConfig.autoStart= false;` default is true.
+debug     | Boolean | Show verbose logs. `ngActionCableConfig.debug= true;` default is false.
 
 ```javascript
-my_app.run(function (WebsocketConfig) {
-  WebsocketConfig.wsUri= "ws://example.com/cable";
-  WebsocketConfig.autoStart= false;
+my_app.run(function (ngActionCableConfig) {
+  ngActionCableConfig.wsUri= "ws://example.com/cable";
+  ngActionCableConfig.autoStart= false;
 });
 ```
 
