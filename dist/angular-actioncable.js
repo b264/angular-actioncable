@@ -1,3 +1,5 @@
+var ngActionCable= angular.module('ngActionCable', ['ngWebSocket']);
+
 // SocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
 //
 // Current status is denoted by three booleans:
@@ -5,7 +7,7 @@
 // of the internal trivalent logic. Exactly one will be true at all times.
 //
 // Actions are start() and stop()
-angular.module('ngActionCable',['ngWebSocket']).factory("SocketWrangler", function(Websocket) {
+ngActionCable.factory("SocketWrangler", function(Websocket) {
   var intervalTime= 8647;
   var websocket= Websocket;
   var _live= false;
@@ -220,10 +222,10 @@ ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocke
 // looks for Rails' <%= action_cable_meta_tag %> in this format:
 // <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
 ngActionCable.value('WebsocketConfig', {
-  autoStart: true,
-  wsUri: angular.element("meta[name='action-cable-url']").attr("content") || "",
-  debug: false
-});
+    autoStart: true,
+    wsUri: angular.element("meta[name='action-cable-url']").attr("content") || "",
+    debug: false
+  });
 
 ngActionCable.factory('WebsocketController', function () {
 

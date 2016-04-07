@@ -1,4 +1,4 @@
-angular.module('ngActionCable.service',[]).factory("WebsocketChannel",function (WebsocketController, Websocket){
+ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
       var _channelParamsString= JSON.stringify(this.channelParams);

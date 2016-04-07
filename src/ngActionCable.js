@@ -1,6 +1,1 @@
-
-var ngActionCable= angular.module('ngActionCable',
-  [
-    'ngActionCable.config',
-    'ngActionCable.service'
-  ]);
+var ngActionCable= angular.module('ngActionCable', ['ngWebSocket']);
