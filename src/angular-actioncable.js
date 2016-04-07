@@ -2,26 +2,26 @@
 // looks for Rails' <%= action_cable_meta_tag %> in this format:
 // <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
 ngActionCable.value('WebsocketConfig', {
-    autoStart: true,
-    wsUri: angular.element("meta[name='action-cable-url']").attr("content") || "",
-    debug: false
+  autoStart: true,
+  wsUri: angular.element("meta[name='action-cable-url']").attr("content") || "",
+  debug: false
 });
 
 // ActionCable formats:
 // ! Indentifier for subscribe, unsubscribe and message must be the same.
-
+//
 // {
 //   "command": "subscribe",
 //   "identifier": JSON.stringify({"channel": "UpdatesChannel",  "data": "name"}),
 // }
 //  - will set params to ["identifier"]["data"]
-
+//
 // {
 //   "command": "unsubscribe",
 //   "identifier": JSON.stringify({"channel": "UpdatesChannel",  "data": "name"}),
 // }
 //  - will set params to ["identifier"]["data"]
-
+//
 // {
 //   "command": "message",
 //   "identifier": JSON.stringify({"channel": "UpdatesChannel",  "data": "name"}),
