@@ -106,6 +106,30 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
 });
 
 ngActionCable.factory("SocketWrangler", function(Websocket) {
+  var intervalTime= 8647;
+  var websocket= Websocket;
+  var _live= false;
+  var _connecting= false;
+  var connectNow= function(){
+    websocket.attempt_restart();
+  };
+  var startInterval= function(){
+    _connecting= _connecting || setInterval(function(){
+      connectNow();
+    }, intervalTime);
+  };
+  var stopInterval= function(){
+    clearInterval(_connecting);
+    _connecting= false;
+  };
+  websocket.on_connection_close_callback = function(){
+    if (_live) { startInterval(); };
+    console.log("close callback");
+  };
+  websocket.on_connection_open_callback = function(){
+    stopInterval();
+    console.log("open callback");
+  };
   var methods= {
   };
   return methods;
