@@ -56,9 +56,29 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
     };
     return dataStream;
   };
-
   methods = {
+    connected: function(){ return connected },
+    attempt_restart: function(){
+      close_connection();
+      new_data_stream();
+      return true;
+    },
+    currentChannels: currentChannels,
+    close: function(){ return close_connection(); },
+    on_connection_close_callback: function(){},
+    on_connection_open_callback: function(){},
+    subscribe: function(channel, data){
+      currentChannels.push({name: channel, data: data});
+      this.connected() && subscribe_to(channel, data);
+    },
+    unsubscribe: function(channel, data){
+      for(var i=0; i<currentChannels.length; i++){ if (currentChannels[i].name===channel) {currentChannels.splice(i, 1);} }
+      this.connected() && unsubscribe_from(channel, data);
+    },
+    send: function(channel, data, message, action){
+      console.log("send requested");
+      this.connected() && send_to(channel, data, message, action);
+    }
   };
-
   return methods;
 });
