@@ -1,7 +1,4 @@
 
-
-
-
 // default websocket configs
 // looks for Rails' <%= action_cable_meta_tag %> in this format:
 // <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
@@ -50,6 +47,7 @@ ngActionCable.factory('WebsocketController', function () {
     };
   };
 
+
   function findActionCallbacksForChannel(channelName, params){
     return (actions[channelName] && actions[channelName][params]);
   }
@@ -76,8 +74,6 @@ ngActionCable.factory('WebsocketController', function () {
   return methods;
 });
 
-
-
 // ActionCable formats:
 // ! Indentifier for subscribe, unsubscribe and message must be the same.
 //
@@ -100,6 +96,10 @@ ngActionCable.factory('WebsocketController', function () {
 // }
 //  - will call foobar(data)
 //  - will set params to ["identifier"]["data"]
+
+
+
+
 ngActionCable.factory("Websocket", function($websocket, WebsocketController, WebsocketConfig) {
   var wsUrl = WebsocketConfig.wsUri;
   var controller = WebsocketController;
