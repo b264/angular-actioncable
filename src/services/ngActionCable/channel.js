@@ -1,4 +1,4 @@
-ngActionCable.factory("ngActionCableChannel",function (ngActionCableController, ngActionCableWebsocket){
+ngActionCable.factory("ActionCableChannel",function (ngActionCableController, ngActionCableWebsocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
       var _channelParamsString= JSON.stringify(this.channelParams);

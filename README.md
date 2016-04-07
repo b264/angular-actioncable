@@ -21,10 +21,10 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
-    .controller('SomeController', function ($scope, ngActionCableChannel) {
+    .controller('SomeController', function ($scope, ActionCableChannel) {
       $scope.MyData = [];
 
-      (new ngActionCableChannel("MyChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
+      (new ActionCableChannel("MyChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
 
     });
   </script>
@@ -49,12 +49,12 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
-    .controller('SomeController', function ($scope, ngActionCableChannel) {
+    .controller('SomeController', function ($scope, ActionCableChannel) {
       $scope.input_text = "";
       $scope.MyData = [];
 
       var channelParams = {user: 42, chat: 37};
-      var channel = new ngActionCableChannel("MyChannel", channelParams));
+      var channel = new ActionCableChannel("MyChannel", channelParams));
       var callback = function(message){
         $scope.MyData.unshift(message);
       };
@@ -79,14 +79,14 @@ end
 
 ## API
 
-### Factory: `ngActionCableChannel`
+### Factory: `ActionCableChannel`
 
 _constructor function_
 
 ##### Methods
 name        | arguments                                              | description
 ------------|--------------------------------------------------------|--------------------------------------------
-new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens a ngActionCableChannel instance. `var channel = new ngActionCableChannel('MyChannel');`
+new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens an ActionCableChannel instance. `var channel = new ActionCableChannel('MyChannel');`
 subscribe   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
 unsubscribe |                                                        | Unsubscribes the callback function from the channel.
 send        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
