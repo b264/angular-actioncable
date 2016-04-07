@@ -202,6 +202,10 @@ ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocke
       return this.callbacks.length;
     };
 
+    this.channelName= channelName;
+    this.channelParams= channelParams || {};
+    this.onMessageCallback= null;
+    this.callbacks= this._websocketControllerActions();
 
 
   }
