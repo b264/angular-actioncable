@@ -236,7 +236,6 @@ ngActionCable.factory("WebsocketChannel",function (WebsocketController, Websocke
       console.log("onMessageCallback:"); console.log(this.onMessageCallback);
       throw "can't find onMessageCallback in callbacks array to remove"
     }
-
   }
 });
 
