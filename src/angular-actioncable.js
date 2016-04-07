@@ -12,6 +12,22 @@ ngActionCable.factory("Websocket", function($websocket, WebsocketController, Web
       connected = false;
     };
   };
+  var subscribe_to = function(channel, data){
+    if (typeof(data)==='undefined') data = "N/A";
+    console.log("-> subscribing to: " + channel)
+    new_data_stream().send(JSON.stringify({
+        "command": "subscribe",
+        "identifier": JSON.stringify({"channel": channel, "data": data})
+      }));
+  };
+  var unsubscribe_from = function(channel, data){
+    if (typeof(data)==='undefined') data = "N/A";
+    console.log("<- unsubscribing from: " + channel)
+    new_data_stream().send(JSON.stringify({
+        "command": "unsubscribe",
+        "identifier": JSON.stringify({"channel": channel, "data": data})
+      }));
+  };
   var new_data_stream = function(){
     if(dataStream == null) {
       dataStream = $websocket(wsUrl);
