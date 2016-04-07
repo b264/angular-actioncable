@@ -15,6 +15,9 @@ ngActionCable.value('WebsocketConfig', {
 
 ngActionCable.factory('WebsocketController', function () {
 
+  // add a hash of callbacks here that `route_channel` will call on an incoming message.
+  // actions format: actions[channelName][dataParams] = [callback1, callback2, ...]
+  // e.g. actions["GlobalsData"][JSON.stringify({"responder_id":1})]= [function(message){...}, assignment_2: function(message){...}, ... ]
   var actions = {
     welcome: function(message){
       // console.log('willkommen');
