@@ -25,6 +25,7 @@ var lintFiles = [
 ].concat(sourceFiles);
 
 
+// Build JavaScript distribution files
 gulp.task('build', function() {
   return eventStream.merge(gulp.src(sourceFiles))
     .pipe(plumber())
@@ -33,4 +34,14 @@ gulp.task('build', function() {
     .pipe(uglify())
     .pipe(rename('angular-actioncable.min.js'))
     .pipe(gulp.dest('./dist/'));
+});
+
+
+// Validate source JavaScript
+gulp.task('jshint', function () {
+  gulp.src(lintFiles)
+    .pipe(plumber())
+    .pipe(jshint())
+    .pipe(jshint.reporter('jshint-stylish'))
+    .pipe(jshint.reporter('fail'));
 });
