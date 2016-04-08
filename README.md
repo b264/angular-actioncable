@@ -116,7 +116,7 @@ connected()      | Function:Boolean  | ngActionCable is started and connected li
 connecting()     | Function:Boolean  | ngActionCable is started and trying to establish a connection. `ActionCableSocketWrangler.connecting();`
 disconnected()   | Function:Boolean  | ngActionCable is stopped and not connected. `ActionCableSocketWrangler.disconnected();`
 
-### Configuration: `ngActionCableConfig`
+### Configuration: `ActionCableConfig`
 
 _value_
 
@@ -147,5 +147,9 @@ UNLICENSED private
 
 
 ## Setup Development
+ - `npm install gulp-cli --global`
  - `npm install`
  - `bower install`
+
+ - `gulp build` build package in `/dist` folder
+ - `gulp jshint` runs jshint over the `/src` javascript files
