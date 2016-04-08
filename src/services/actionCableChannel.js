@@ -1,4 +1,4 @@
-ngActionCable.factory("ActionCableChannel",function (ActionCableController, ActionCableWebsocket){
+ngActionCable.factory("ActionCableChannel",function ($q, ActionCableController, ActionCableWebsocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
       var _channelParamsString= JSON.stringify(this.channelParams);
@@ -9,7 +9,7 @@ ngActionCable.factory("ActionCableChannel",function (ActionCableController, Acti
 
     this._subscriptionCount= function(){
       return this.callbacks.length;
-    };
+    }
 
     this.channelName= channelName;
     this.channelParams= channelParams || {};
@@ -17,15 +17,19 @@ ngActionCable.factory("ActionCableChannel",function (ActionCableController, Acti
     this.callbacks= this._websocketControllerActions();
 
     this.subscribe= function(cb){
-      if (this._subscriptionCount() === 0) { ActionCableWebsocket.subscribe(this.channelName, this.channelParams) };
+      var request;
+      if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.subscribe(this.channelName, this.channelParams); };
       this._addMessageCallback(cb);
+      return (request || $q.resolve());
     }
     this.unsubscribe= function(){
+      var request;
       this._removeMessageCallback();
-      if (this._subscriptionCount() === 0) { ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      return (request || $q.resolve());
      }
     this.send= function(message, action){
-      ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
+      return ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
     }
 
     this._addMessageCallback= function(cb){
