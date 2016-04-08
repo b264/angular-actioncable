@@ -19,8 +19,7 @@
     "Brian Giaraffa",
     "Cristian Dugacicu"
   ],
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/angular-actioncable/angular-actioncable/issues"
   },
