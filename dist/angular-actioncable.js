@@ -1,6 +1,6 @@
 var ngActionCable= angular.module('ngActionCable', ['ngWebSocket']);
 
-ngActionCable.factory("ActionCableChannel",function (ActionCableController, ActionCableWebsocket){
+ngActionCable.factory("ActionCableChannel",function ($q, ActionCableController, ActionCableWebsocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
       var _channelParamsString= JSON.stringify(this.channelParams);
@@ -11,7 +11,7 @@ ngActionCable.factory("ActionCableChannel",function (ActionCableController, Acti
 
     this._subscriptionCount= function(){
       return this.callbacks.length;
-    };
+    }
 
     this.channelName= channelName;
     this.channelParams= channelParams || {};
@@ -19,15 +19,19 @@ ngActionCable.factory("ActionCableChannel",function (ActionCableController, Acti
     this.callbacks= this._websocketControllerActions();
 
     this.subscribe= function(cb){
-      if (this._subscriptionCount() === 0) { ActionCableWebsocket.subscribe(this.channelName, this.channelParams) };
+      var request;
+      if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.subscribe(this.channelName, this.channelParams); };
       this._addMessageCallback(cb);
+      return (request || $q.resolve());
     }
     this.unsubscribe= function(){
+      var request;
       this._removeMessageCallback();
-      if (this._subscriptionCount() === 0) { ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      return (request || $q.resolve());
      }
     this.send= function(message, action){
-      ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
+      return ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
     }
 
     this._addMessageCallback= function(cb){
@@ -223,7 +227,7 @@ ngActionCable.factory("ActionCableWebsocket", function($websocket, ActionCableCo
   var subscribe_to = function(channel, data){
     if (typeof(data)==='undefined') data = "N/A";
     console.log("-> subscribing to: " + channel)
-    new_data_stream().send(JSON.stringify({
+    return new_data_stream().send(JSON.stringify({
         "command": "subscribe",
         "identifier": JSON.stringify({"channel": channel, "data": data})
       }));
@@ -231,7 +235,7 @@ ngActionCable.factory("ActionCableWebsocket", function($websocket, ActionCableCo
   var unsubscribe_from = function(channel, data){
     if (typeof(data)==='undefined') data = "N/A";
     console.log("<- unsubscribing from: " + channel)
-    new_data_stream().send(JSON.stringify({
+    return new_data_stream().send(JSON.stringify({
         "command": "unsubscribe",
         "identifier": JSON.stringify({"channel": channel, "data": data})
       }));
@@ -239,7 +243,7 @@ ngActionCable.factory("ActionCableWebsocket", function($websocket, ActionCableCo
   var send_to = function(channel, data, message, action){
     if (typeof(data)==='undefined') data = "N/A";
     console.log("=> sending to: " + channel)
-    new_data_stream().send(JSON.stringify({
+    return new_data_stream().send(JSON.stringify({
         "command": "message",
         "identifier": JSON.stringify({"channel": channel, "data": data}),
         "data": JSON.stringify({"message": message, "action": action})
@@ -277,15 +281,15 @@ ngActionCable.factory("ActionCableWebsocket", function($websocket, ActionCableCo
     on_connection_open_callback: function(){},
     subscribe: function(channel, data){
       currentChannels.push({name: channel, data: data});
-      this.connected() && subscribe_to(channel, data);
+      return (this.connected() && subscribe_to(channel, data));
     },
     unsubscribe: function(channel, data){
       for(var i=0; i<currentChannels.length; i++){ if (currentChannels[i].name===channel) {currentChannels.splice(i, 1);} }
-      this.connected() && unsubscribe_from(channel, data);
+      return (this.connected() && unsubscribe_from(channel, data));
     },
     send: function(channel, data, message, action){
       console.log("send requested");
-      this.connected() && send_to(channel, data, message, action);
+      return (this.connected() && send_to(channel, data, message, action));
     }
   };
   return methods;
