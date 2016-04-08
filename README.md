@@ -143,7 +143,7 @@ my_app.run(function (ActionCableConfig) {
  * *A.*: This module depends on [angular-websocket](https://github.com/AngularClass/angular-websocket) which will not help; it does not have a fallback story for browsers that do not support WebSockets. Please [check](http://caniuse.com/#feat=websockets) your browser target support.
 
 ## License
-UNLICENSED private
+MIT
 
 
 ## Setup Development
