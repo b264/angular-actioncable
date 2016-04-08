@@ -18,12 +18,12 @@ ngActionCable.factory("ActionCableChannel",function ($q, ActionCableController, 
 
     this.subscribe= function(cb){
       var request;
-      if (!cb) {
-        console.error("0x01 Callback function was not defined on subscribe method. ActionCable channel: '"+this.channelName+"', params: '"+this.channelParams+"'");
+      if (!(typeof(cb)==="function")) {
+        console.error("0x01 Callback function was not defined on subscribe(). ActionCable channel: '"+this.channelName+"', params: '"+this.channelParams+"'");
         return $q.reject();
       };
       if (this.onMessageCallback) {
-        console.error("0x02 This ActionCableChannel instance is already subscribed with a callback. ActionCable channel: '"+this.channelName+"', params: '"+this.channelParams+"'");
+        console.error("0x02 This ActionCableChannel instance is already subscribed. ActionCable channel: '"+this.channelName+"', params: '"+this.channelParams+"'");
         return $q.reject();
       };
       if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.subscribe(this.channelName, this.channelParams); };
