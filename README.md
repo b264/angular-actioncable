@@ -58,8 +58,10 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
       var callback = function(message){
         $scope.MyData.unshift(message);
       };
-      channel.subscribe(callback);
-      $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message') };
+      channel.subscribe(callback)
+      .then(function(){
+        $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message') };
+      })
       $scope.$on("$destroy", function(){
         channel.unsubscribe();
       });
@@ -88,18 +90,21 @@ name        | arguments                                              | descripti
 ------------|--------------------------------------------------------|--------------------------------------------
 new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens an ActionCableChannel instance. `var channel = new ActionCableChannel('MyChannel');`
 subscribe   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
+            |                                                        | returns promise
 unsubscribe |                                                        | Unsubscribes the callback function from the channel.
+            |                                                        | returns promise
 send        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
+            |                                                        | returns promise
 
-### Factory: `ngActionCableSocketWrangler`
+### Factory: `ActionCableSocketWrangler`
 
 _singleton_
 
 ##### Methods
 name        | arguments                                              | description
 ------------|--------------------------------------------------------|--------------------------------------------
-start       |                                                        | Starts ngActionCable services. `ngActionCableSocketWrangler.start();`<br />This will start by default unless disabled.
-stop        |                                                        | Stops ngActionCable services. `ngActionCableSocketWrangler.stop();`
+start       |                                                        | Starts ngActionCable services. `ActionCableSocketWrangler.start();`<br />This will start by default unless disabled.
+stop        |                                                        | Stops ngActionCable services. `ActionCableSocketWrangler.stop();`
 
 ##### Properties
 
@@ -107,9 +112,9 @@ _Exactly one will be true at all times._
 
 name             | type              | description
 -----------------|-------------------|------------
-connected        | Function:Boolean  | ngActionCable is started and connected live. `ngActionCableSocketWrangler.connected();`
-connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection. `ngActionCableSocketWrangler.connecting();`
-disconnected     | Function:Boolean  | ngActionCable is stopped and not connected. `ngActionCableSocketWrangler.disconnected();`
+connected()      | Function:Boolean  | ngActionCable is started and connected live. `ActionCableSocketWrangler.connected();`
+connecting()     | Function:Boolean  | ngActionCable is started and trying to establish a connection. `ActionCableSocketWrangler.connecting();`
+disconnected()   | Function:Boolean  | ngActionCable is stopped and not connected. `ActionCableSocketWrangler.disconnected();`
 
 ### Configuration: `ngActionCableConfig`
 
@@ -122,13 +127,13 @@ _You can override the defaults._
 name      | type    | description
 ----------|---------|------------
 wsUri     | String  | URI to connect ngActionCable to ActionCable.  If this is inside Rails, it will be read from the action_cable_meta_tag but can still be overridden.
-autoStart | Boolean | Connect automatically? `ngActionCableConfig.autoStart= false;` default is true.
-debug     | Boolean | Show verbose logs. `ngActionCableConfig.debug= true;` default is false.
+autoStart | Boolean | Connect automatically? `ActionCableConfig.autoStart= false;` default is true.
+debug     | Boolean | Show verbose logs. `ActionCableConfig.debug= true;` default is false.
 
 ```javascript
-my_app.run(function (ngActionCableConfig) {
-  ngActionCableConfig.wsUri= "ws://example.com/cable";
-  ngActionCableConfig.autoStart= false;
+my_app.run(function (ActionCableConfig) {
+  ActionCableConfig.wsUri= "ws://example.com/cable";
+  ActionCableConfig.autoStart= false;
 });
 ```
 
@@ -142,5 +147,5 @@ UNLICENSED private
 
 
 ## Setup Development
-`npm install`
-`bower install`
+ - `npm install`
+ - `bower install`
