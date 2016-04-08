@@ -1,0 +1,43 @@
+{
+  "name": "angular-actioncable",
+  "version": "0.0.1",
+  "description": "Connect Angular to ActionCable",
+  "main": "angular-actioncable.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/angular-actioncable/angular-actioncable.git"
+  },
+  "keywords": [
+    "angular",
+    "actioncable",
+    "rails"
+  ],
+  "contributors": [
+    "Brian Giaraffa",
+    "Cristian Dugacicu"
+  ],
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/angular-actioncable/angular-actioncable/issues"
+  },
+  "homepage": "https://github.com/angular-actioncable/angular-actioncable#readme",
+  "dependencies": {
+    "angular": "*",
+    "angular-websocket": "^1.1.0"
+  },
+  "devDependencies": {
+    "event-stream": "^3.3.2",
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.5.3",
+    "jshint-stylish": "^2.1.0"
+  }
+}
