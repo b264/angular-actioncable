@@ -1,31 +1,47 @@
-ngActionCable.factory("ActionCableChannel",function (ActionCableController, ActionCableWebsocket){
+ngActionCable.factory("ActionCableChannel",function ($q, ActionCableController, ActionCableWebsocket){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
-      var _channelParamsString= JSON.stringify(this.channelParams);
       ActionCableController.actions[this.channelName]= ActionCableController.actions[this.channelName] || {};
-      ActionCableController.actions[this.channelName][_channelParamsString]= ActionCableController.actions[this.channelName][_channelParamsString] || [];
-      return ActionCableController.actions[this.channelName][_channelParamsString];
+      ActionCableController.actions[this.channelName][this._channelParamsString]= ActionCableController.actions[this.channelName][this._channelParamsString] || [];
+      return ActionCableController.actions[this.channelName][this._channelParamsString];
     }
 
     this._subscriptionCount= function(){
       return this.callbacks.length;
-    };
+    }
 
     this.channelName= channelName;
     this.channelParams= channelParams || {};
+    this._channelParamsString= JSON.stringify(this.channelParams);
     this.onMessageCallback= null;
     this.callbacks= this._websocketControllerActions();
 
     this.subscribe= function(cb){
-      if (this._subscriptionCount() === 0) { ActionCableWebsocket.subscribe(this.channelName, this.channelParams) };
+      var request;
+      if (!(typeof(cb)==="function")) {
+        console.error("0x01 Callback function was not defined on subscribe(). ActionCable channel: '"+this.channelName+"', params: '"+this._channelParamsString+"'");
+        return $q.reject();
+      };
+      if (this.onMessageCallback) {
+        console.error("0x02 This ActionCableChannel instance is already subscribed. ActionCable channel: '"+this.channelName+"', params: '"+this._channelParamsString+"'");
+        return $q.reject();
+      };
+      if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.subscribe(this.channelName, this.channelParams); };
       this._addMessageCallback(cb);
+      return (request || $q.resolve());
     }
     this.unsubscribe= function(){
+      var request;
       this._removeMessageCallback();
-      if (this._subscriptionCount() === 0) { ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      if (this._subscriptionCount() === 0) { request= ActionCableWebsocket.unsubscribe(this.channelName, this.channelParams); };
+      return (request || $q.resolve());
      }
     this.send= function(message, action){
-      ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
+      if (!this.onMessageCallback) {
+        console.error("0x03 You need to subscribe before you can send a message. ActionCable channel: '"+this.channelName+"', params: '"+this._channelParamsString+"'");
+        return $q.reject();
+      };
+      return ActionCableWebsocket.send(this.channelName, this.channelParams, message, action);
     }
 
     this._addMessageCallback= function(cb){
