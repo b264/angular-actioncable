@@ -11,8 +11,7 @@
     "type": "git",
     "url": "https://github.com/invisible-industries/angular-actioncable.git"
   },
-  "license": "UNLICENSED",
-  "private": true,
+  "license": "MIT",
   "keywords": [
     "angular",
     "actioncable",
