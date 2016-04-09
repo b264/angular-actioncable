@@ -34,7 +34,7 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
 #### A better way
 
 ```html
-  <%= action_cable_meta_tag %>
+  <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   <script src="bower_components/angular-websocket/angular-websocket.min.js"></script>
   <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
@@ -55,16 +55,13 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
       $scope.myData = [];
 
       // connect to ActionCable
-      var channelParams = {user: 42, chat: 37};
-      var channel = new ActionCableChannel("MyChannel", channelParams));
-      var callback = function(message){
-        $scope.myData.unshift(message);
-      };
+      var channel = new ActionCableChannel("MyChannel", {user: 42, chat: 37}));
+      var callback = function(message){ $scope.myData.unshift(message); };
       channel.subscribe(callback).then(function(){
-        $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message') };
-      });
-      $scope.$on("$destroy", function(){
-        channel.unsubscribe();
+        $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message'); };
+        $scope.$on("$destroy", function(){
+          channel.unsubscribe().then(function(){ $scope.sendToMyChannel = undefined; });
+        });
       });
 
     });
