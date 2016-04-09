@@ -89,7 +89,7 @@ _constructor function_
 ##### Methods
 name        | arguments                                                | description
 ------------|----------------------------------------------------------|--------------------------------------------
-new         | channelName:String<br />channelParams:Hash:_optional_    | Creates and opens an ActionCableChannel instance.<br />`var channel = new ActionCableChannel('MyChannel');`
+new         | channelName:String<br />channelParams:Hash:_optional_<br />_returns instance_    | Creates and opens an ActionCableChannel instance.<br />`var channel = new ActionCableChannel('MyChannel');`
 subscribe   | callback:Function<br />_returns promise_                 | Subscribes a callback function to the channel.<br />`channel.subscribe(function(message){ $scope.thing = message });`
 unsubscribe | <br />_returns promise_                                  | Unsubscribes the callback function from the channel.
 send        | message:String<br />action:String<br />_returns promise_ | Send a message to an action in Rails. The action is the method name in Ruby.
