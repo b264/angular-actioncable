@@ -21,7 +21,7 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
-    .controller('SomeController', function ($scope, ActionCableChannel) {
+    .controller('SomeController', function ($scope, ActionCableChannel){
       $scope.myData = [];
 
       // connect to ActionCable
@@ -50,7 +50,7 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
-    .controller('SomeController', function ($scope, ActionCableChannel) {
+    .controller('SomeController', function ($scope, ActionCableChannel){
       $scope.inputText = "";
       $scope.myData = [];
 
@@ -91,7 +91,6 @@ name        | arguments                                              | descripti
 ------------|--------------------------------------------------------|--------------------------------------------
 new         | channelName:String<br />channelParams:Hash:_optional_ | Creates and opens an ActionCableChannel instance. `var channel = new ActionCableChannel('MyChannel');`
 subscribe<br />_returns promise_   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
-
 unsubscribe<br />_returns promise_ |                                                        | Unsubscribes the callback function from the channel.
 send<br />_returns promise_        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
 
