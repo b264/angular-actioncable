@@ -1,5 +1,5 @@
 # angular-actioncable
-An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into frontend Angular code.
+An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into frontend Angular code.
 
 ## Usage
 
@@ -12,7 +12,7 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
   <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
   <section ng-controller="SomeController">
     <ul>
-      <li ng-repeat="datum in MyData">
+      <li ng-repeat="datum in myData">
         {{ datum }}
       </li>
     </ul>
@@ -22,9 +22,10 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
       'ngActionCable'
     ])
     .controller('SomeController', function ($scope, ActionCableChannel) {
-      $scope.MyData = [];
+      $scope.myData = [];
 
-      (new ActionCableChannel("MyChannel")).subscribe(function(message){ $scope.MyData.unshift(message) })
+      // connect to ActionCable
+      (new ActionCableChannel("MyChannel")).subscribe(function(message){ $scope.myData.unshift(message) });
 
     });
   </script>
@@ -39,29 +40,29 @@ An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into f
   <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
   <section ng-controller="SomeController">
     <ul>
-      <li ng-repeat="datum in MyData">
+      <li ng-repeat="datum in myData">
         {{ datum }}
       </li>
     </ul>
-    <input ng-model="input_text" /><button ng-click="sendToMyChannel(input_text)">Send</button>
+    <input ng-model="inputText" /><button ng-click="sendToMyChannel(inputText)">Send</button>
   </section>
   <script>
     angular.module('YOUR_APP', [
       'ngActionCable'
     ])
     .controller('SomeController', function ($scope, ActionCableChannel) {
-      $scope.input_text = "";
-      $scope.MyData = [];
+      $scope.inputText = "";
+      $scope.myData = [];
 
+      // connect to ActionCable
       var channelParams = {user: 42, chat: 37};
       var channel = new ActionCableChannel("MyChannel", channelParams));
       var callback = function(message){
-        $scope.MyData.unshift(message);
+        $scope.myData.unshift(message);
       };
-      channel.subscribe(callback)
-      .then(function(){
+      channel.subscribe(callback).then(function(){
         $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message') };
-      })
+      });
       $scope.$on("$destroy", function(){
         channel.unsubscribe();
       });
@@ -88,13 +89,11 @@ _constructor function_
 ##### Methods
 name        | arguments                                              | description
 ------------|--------------------------------------------------------|--------------------------------------------
-new         | channel_name:String<br />channelParams:Hash:_optional_ | Creates and opens an ActionCableChannel instance. `var channel = new ActionCableChannel('MyChannel');`
-subscribe   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
-            |                                                        | returns promise
-unsubscribe |                                                        | Unsubscribes the callback function from the channel.
-            |                                                        | returns promise
-send        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
-            |                                                        | returns promise
+new         | channelName:String<br />channelParams:Hash:_optional_ | Creates and opens an ActionCableChannel instance. `var channel = new ActionCableChannel('MyChannel');`
+subscribe<br />_returns promise_   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
+
+unsubscribe<br />_returns promise_ |                                                        | Unsubscribes the callback function from the channel.
+send<br />_returns promise_        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
 
 ### Factory: `ActionCableSocketWrangler`
 
@@ -112,9 +111,9 @@ _Exactly one will be true at all times._
 
 name             | type              | description
 -----------------|-------------------|------------
-connected()      | Function:Boolean  | ngActionCable is started and connected live. `ActionCableSocketWrangler.connected();`
-connecting()     | Function:Boolean  | ngActionCable is started and trying to establish a connection. `ActionCableSocketWrangler.connecting();`
-disconnected()   | Function:Boolean  | ngActionCable is stopped and not connected. `ActionCableSocketWrangler.disconnected();`
+connected        | Function:Boolean  | ngActionCable is started and connected live.<br />`ActionCableSocketWrangler.connected();`
+connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection.<br />`ActionCableSocketWrangler.connecting();`
+disconnected     | Function:Boolean  | ngActionCable is stopped and not connected.<br />`ActionCableSocketWrangler.disconnected();`
 
 ### Configuration: `ActionCableConfig`
 
@@ -126,12 +125,12 @@ _You can override the defaults._
 
 name      | type    | description
 ----------|---------|------------
-wsUri     | String  | URI to connect ngActionCable to ActionCable.  If this is inside Rails, it will be read from the action_cable_meta_tag but can still be overridden.
-autoStart | Boolean | Connect automatically? `ActionCableConfig.autoStart= false;` default is true.
-debug     | Boolean | Show verbose logs. `ActionCableConfig.debug= true;` default is false.
+wsUri     | String  | URI to connect ngActionCable to ActionCable.  If this is inside a Rails view, it will be read from the action_cable_meta_tag but can still be overridden.
+autoStart | Boolean | Connect automatically? Default is true.<br />`ActionCableConfig.autoStart= false;`
+debug     | Boolean | Show verbose logs.  Default is false.<br />`ActionCableConfig.debug= true;`
 
 ```javascript
-my_app.run(function (ActionCableConfig) {
+my_app.run(function (ActionCableConfig){
   ActionCableConfig.wsUri= "ws://example.com/cable";
   ActionCableConfig.autoStart= false;
 });
