@@ -87,12 +87,12 @@ end
 _constructor function_
 
 ##### Methods
-name        | arguments                                              | description
-------------|--------------------------------------------------------|--------------------------------------------
-new         | channelName:String<br />channelParams:Hash:_optional_ | Creates and opens an ActionCableChannel instance. `var channel = new ActionCableChannel('MyChannel');`
-subscribe<br />_returns promise_   | callback:Function                                      | Subscribes a callback function to the channel. `channel.subscribe(function(message){ $scope.thing = message });`
-unsubscribe<br />_returns promise_ |                                                        | Unsubscribes the callback function from the channel.
-send<br />_returns promise_        | message:String<br />action:String                      | Send a message to an action in Rails. The action is the method name in Ruby.
+name        | arguments                                                | description
+------------|----------------------------------------------------------|--------------------------------------------
+new         | channelName:String<br />channelParams:Hash:_optional_    | Creates and opens an ActionCableChannel instance.<br />`var channel = new ActionCableChannel('MyChannel');`
+subscribe   | callback:Function<br />_returns promise_                 | Subscribes a callback function to the channel.<br />`channel.subscribe(function(message){ $scope.thing = message });`
+unsubscribe | <br />_returns promise_                                  | Unsubscribes the callback function from the channel.
+send        | message:String<br />action:String<br />_returns promise_ | Send a message to an action in Rails. The action is the method name in Ruby.
 
 ### Factory: `ActionCableSocketWrangler`
 
