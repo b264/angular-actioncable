@@ -77,6 +77,12 @@ class MyChannel < ApplicationCable::Channel
 end
 ```
 
+## Support
+
+Supports:
+- Rails 5.0.0.beta3
+- Rails master [at the time of writing](https://github.com/rails/rails/tree/b8d1dbf9933e3d67e15cd06116164286ba15c6a7)
+
 ## API
 
 ### Factory: `ActionCableChannel`
