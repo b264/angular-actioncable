@@ -1,3 +1,7 @@
+# This package [has been moved](https://github.com/angular-actioncable/angular-actioncable)!
+Please use the [latest code](https://github.com/angular-actioncable/angular-actioncable).  
+This version does not support Rails 5.0.0.beta3, only Rails master [at the time of writing](https://github.com/rails/rails/tree/b8d1dbf9933e3d67e15cd06116164286ba15c6a7).
+
 # angular-actioncable
 An Angular 1.x service for seamlessly integrating Rails 5.x (ActionCable) into frontend Angular code.
 
