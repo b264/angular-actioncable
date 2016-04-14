@@ -25,7 +25,7 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
       $scope.myData = [];
 
       // connect to ActionCable
-      (new ActionCableChannel("MyChannel")).subscribe(function(message){ $scope.myData.unshift(message) });
+      (new ActionCableChannel("MyChannel")).subscribe(function(message){ $scope.myData.push(message) });
 
     });
   </script>
@@ -55,12 +55,12 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
       $scope.myData = [];
 
       // connect to ActionCable
-      var channel = new ActionCableChannel("MyChannel", {user: 42, chat: 37}));
-      var callback = function(message){ $scope.myData.unshift(message); };
-      channel.subscribe(callback).then(function(){
-        $scope.sendToMyChannel = function(message){ channel.send(message, 'send_a_message'); };
+      var consumer = new ActionCableChannel("MyChannel", {user: 42, chat: 37}));
+      var callback = function(message){ $scope.myData.push(message); };
+      consumer.subscribe(callback).then(function(){
+        $scope.sendToMyChannel = function(message){ consumer.send(message, 'send_a_message'); };
         $scope.$on("$destroy", function(){
-          channel.unsubscribe().then(function(){ $scope.sendToMyChannel = undefined; });
+          consumer.unsubscribe().then(function(){ $scope.sendToMyChannel = undefined; });
         });
       });
 
