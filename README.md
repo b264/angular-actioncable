@@ -92,10 +92,10 @@ _constructor function_
 ##### Methods
 name        | arguments                                                | description
 ------------|----------------------------------------------------------|--------------------------------------------
-new         | channelName:String<br />channelParams:Hash:_optional_<br />_returns instance_    | Creates and opens an ActionCableChannel instance.<br />`var channel = new ActionCableChannel('MyChannel');`
-subscribe   | callback:Function<br />_returns promise_                 | Subscribes a callback function to the channel.<br />`channel.subscribe(function(message){ $scope.thing = message });`
-unsubscribe | <br />_returns promise_                                  | Unsubscribes the callback function from the channel.
-send        | message:String<br />action:String<br />_returns promise_ | Send a message to an action in Rails. The action is the method name in Ruby.
+new         | channelName:String<br />channelParams:Hash:_optional_<br />_returns instance_    | Creates and opens an ActionCableChannel instance.<br />`var consumer = new ActionCableChannel('MyChannel');`
+subscribe   | callback:Function<br />_returns promise_                 | Subscribes a callback function to the channel.<br />`consumer.subscribe(function(message){ $scope.thing = message });`
+unsubscribe | <br />_returns promise_                                  | Unsubscribes the callback function from the channel.<br />`consumer.unsubscribe();`
+send        | message:String<br />action:String<br />_returns promise_ | Send a message to an action in Rails. The action is the method name in Ruby.<br />`consumer.send('message', 'action');`
 
 ### Factory: `ActionCableSocketWrangler`
 
@@ -104,7 +104,7 @@ _singleton_
 ##### Methods
 name        | arguments                                              | description
 ------------|--------------------------------------------------------|--------------------------------------------
-start       |                                                        | Starts ngActionCable services. `ActionCableSocketWrangler.start();`<br />This will start by default unless disabled.
+start       |                                                        | Starts ngActionCable services. `ActionCableSocketWrangler.start();`<br />_This will start by default unless disabled._
 stop        |                                                        | Stops ngActionCable services. `ActionCableSocketWrangler.stop();`
 
 ##### Properties
@@ -133,7 +133,7 @@ debug     | Boolean | Show verbose logs.  Default is false.<br />`ActionCableCon
 
 ```javascript
 my_app.run(function (ActionCableConfig){
-  ActionCableConfig.wsUri= "ws://example.com/cable";
+  ActionCableConfig.wsUri= "wss://example.com/cable";
   ActionCableConfig.autoStart= false;
 });
 ```
