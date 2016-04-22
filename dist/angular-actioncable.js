@@ -87,9 +87,9 @@ ngActionCable.factory('ActionCableController', function (ActionCableConfig) {
     ping: function(message){
       if (ActionCableConfig.debug) console.log('ActionCable ping');
     },
-    _ping: function(message){                       // Rails5.0.0.beta3 backport
-      if (ActionCableConfig.debug) console.log('ActionCable 5.0.0.beta3 ping');
-    },
+    _ping: function(message){                                                   // Rails5.0.0.beta3 backport
+      if (ActionCableConfig.debug) console.log('ActionCable 5.0.0.beta3 ping'); // Rails5.0.0.beta3 backport
+    },                                                                          // Rails5.0.0.beta3 backport
     confirm_subscription: function(message){
       if (ActionCableConfig.debug) console.log('ActionCable confirm_subscription on channel: ' + message.identifier);
     },
@@ -107,8 +107,10 @@ ngActionCable.factory('ActionCableController', function (ActionCableConfig) {
   var route = function(message){
     if (!!actions[message.type]) {
       actions[message.type](message);
+      if (message.type == 'ping') methods.after_ping_callback();
     } else if (message.identifier == '_ping') {     // Rails5.0.0.beta3 backport
       actions._ping(message);                       // Rails5.0.0.beta3 backport
+      methods.after_ping_callback();                // Rails5.0.0.beta3 backport
     } else if (!!findActionCallbacksForChannel(channel_from(message), params_from(message))) {
       var actionCallbacks= findActionCallbacksForChannel(channel_from(message), params_from(message));
       routeToActions(actionCallbacks, message.message);
@@ -138,44 +140,67 @@ ngActionCable.factory('ActionCableController', function (ActionCableConfig) {
     post: function(message){
       return route(message);
     },
-    actions: actions
+    actions: actions,
+    after_ping_callback: function(){}
   };
 
   return methods;
 });
 
-// ngActionCableSocketWrangler to start, stop or try reconnect websockets every intervalTime milliseconds.
+// ngActionCableSocketWrangler to start, stop or try reconnect websockets if they die.
 //
 // Current status is denoted by three booleans:
 // connected(), connecting(), and disconnected(), in an abstraction
 // of the internal trivalent logic. Exactly one will be true at all times.
 //
 // Actions are start() and stop()
-ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket, ActionCableConfig) {
-  var intervalTime= 8647;
+ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket, ActionCableConfig, ActionCableController) {
+  var reconnectIntervalTime= 7537;
+  var timeoutTime= 20143;
   var websocket= ActionCableWebsocket;
+  var controller= ActionCableController;
   var _live= false;
   var _connecting= false;
+  var _reconnectTimeout= false;
+  var setReconnectTimeout= function(){
+    stopReconnectTimeout();
+    _reconnectTimeout = _reconnectTimeout || setTimeout(function(){
+      if (ActionCableConfig.debug) console.log("ActionCable connection might be dead; no pings received recently");
+      connection_dead();
+    }, timeoutTime + Math.floor(Math.random() * timeoutTime / 5));
+  };
+  var stopReconnectTimeout= function(){
+    clearTimeout(_reconnectTimeout);
+    _reconnectTimeout= false;
+  };
+  controller.after_ping_callback= function(){
+    setReconnectTimeout();
+  };
   var connectNow= function(){
     websocket.attempt_restart();
+    setReconnectTimeout();
   };
-  var startInterval= function(){
+  var startReconnectInterval= function(){
     _connecting= _connecting || setInterval(function(){
       connectNow();
-    }, intervalTime);
+    }, reconnectIntervalTime + Math.floor(Math.random() * reconnectIntervalTime / 5));
   };
-  var stopInterval= function(){
+  var stopReconnectInterval= function(){
     clearInterval(_connecting);
     _connecting= false;
+    clearTimeout(_reconnectTimeout);
+    _reconnectTimeout= false;
   };
-  websocket.on_connection_close_callback = function(){
-    if (_live) { startInterval(); }
+  var connection_dead= function(){
+    if (_live) { startReconnectInterval(); }
     if (ActionCableConfig.debug) console.log("close callback");
   };
-  websocket.on_connection_open_callback = function(){
-    stopInterval();
+  websocket.on_connection_close_callback= connection_dead;
+  var connection_alive= function(){
+    stopReconnectInterval();
     if (ActionCableConfig.debug) console.log("open callback");
   };
+  websocket.on_connection_open_callback= connection_alive;
   var methods= {
     connected: function(){
       return (_live && !_connecting);
@@ -189,13 +214,15 @@ ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket
     start: function(){
       if (ActionCableConfig.debug) console.info("Live STARTED");
       _live= true;
-      startInterval();
+      startReconnectInterval();
+      setReconnectTimeout();
       connectNow();
     },
     stop: function(){
       if (ActionCableConfig.debug) console.info("Live stopped");
       _live= false;
-      stopInterval();
+      stopReconnectInterval();
+      stopReconnectTimeout();
       websocket.close();
     }
   };

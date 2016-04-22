@@ -10,9 +10,9 @@ ngActionCable.factory('ActionCableController', function (ActionCableConfig) {
     ping: function(message){
       if (ActionCableConfig.debug) console.log('ActionCable ping');
     },
-    _ping: function(message){                       // Rails5.0.0.beta3 backport
-      if (ActionCableConfig.debug) console.log('ActionCable 5.0.0.beta3 ping');
-    },
+    _ping: function(message){                                                   // Rails5.0.0.beta3 backport
+      if (ActionCableConfig.debug) console.log('ActionCable 5.0.0.beta3 ping'); // Rails5.0.0.beta3 backport
+    },                                                                          // Rails5.0.0.beta3 backport
     confirm_subscription: function(message){
       if (ActionCableConfig.debug) console.log('ActionCable confirm_subscription on channel: ' + message.identifier);
     },
@@ -30,8 +30,10 @@ ngActionCable.factory('ActionCableController', function (ActionCableConfig) {
   var route = function(message){
     if (!!actions[message.type]) {
       actions[message.type](message);
+      if (message.type == 'ping') methods.after_ping_callback();
     } else if (message.identifier == '_ping') {     // Rails5.0.0.beta3 backport
       actions._ping(message);                       // Rails5.0.0.beta3 backport
+      methods.after_ping_callback();                // Rails5.0.0.beta3 backport
     } else if (!!findActionCallbacksForChannel(channel_from(message), params_from(message))) {
       var actionCallbacks= findActionCallbacksForChannel(channel_from(message), params_from(message));
       routeToActions(actionCallbacks, message.message);
@@ -61,7 +63,8 @@ ngActionCable.factory('ActionCableController', function (ActionCableConfig) {
     post: function(message){
       return route(message);
     },
-    actions: actions
+    actions: actions,
+    after_ping_callback: function(){}
   };
 
   return methods;
