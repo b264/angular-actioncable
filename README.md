@@ -154,3 +154,8 @@ MIT
 
  - `gulp build` build package in `/dist` folder
  - `gulp jshint` runs jshint over the `/src` javascript files
+
+## Publish
+ - change the version in `bower.json` and `package.json` and submit a commit named `bump version` to `master` branch
+ - tag a new release with the new version in github (bower will use this)
+ - publish to npm: pull master, `npm login`, `npm publish`
