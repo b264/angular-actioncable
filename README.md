@@ -111,11 +111,11 @@ stop        |                                                        | Stops ngA
 
 _Exactly one will be true at all times._
 
-name             | type              | description
------------------|-------------------|------------
-connected        | Function:Boolean  | ngActionCable is started and connected live.<br />`ActionCableSocketWrangler.connected();`
-connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection.<br />`ActionCableSocketWrangler.connecting();`
-disconnected     | Function:Boolean  | ngActionCable is stopped and not connected.<br />`ActionCableSocketWrangler.disconnected();`
+name         | type    | description
+-------------|---------|------------
+live         | Boolean | ngActionCable is started and connected live.<br />`ActionCableSocketWrangler.live;`
+reconnecting | Boolean | ngActionCable is started and trying to establish a connection.<br />`ActionCableSocketWrangler.reconnecting;`
+stopped      | Boolean | ngActionCable is stopped and not connected.<br />`ActionCableSocketWrangler.stopped;`
 
 ### Configuration: `ActionCableConfig`
 
