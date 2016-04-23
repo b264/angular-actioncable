@@ -149,11 +149,14 @@ MIT
 
 ## Setup Development
  - `npm install gulp-cli --global`
+ - `npm install -g karma-cli`
  - `npm install`
  - `bower install`
 
  - `gulp build` build package in `/dist` folder
  - `gulp jshint` runs jshint over the `/src` javascript files
+
+ - `reset && gulp` run tests _(must have {Chromium or Chrome} and Firefox installed locally)_
 
 ## Publish
  - change the version in `bower.json` and `package.json` and submit a commit named `bump version` to `master` branch

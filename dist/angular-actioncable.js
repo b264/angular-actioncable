@@ -224,6 +224,9 @@ ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket
       stopReconnectInterval();
       stopReconnectTimeout();
       websocket.close();
+    },
+    getGreeting: function(name) {
+      return "Hello " + name;
     }
   };
   if (ActionCableConfig.autoStart) methods.start();

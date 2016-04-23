@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var chai = require('chai');
+var Server = require('karma').Server;
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
@@ -17,6 +19,7 @@ var sourceDirectory = path.join(rootDirectory, './src');
 var sourceFiles = [
   path.join(sourceDirectory, '/**/*.js')
 ];
+console.log("sourceFiles== "+ JSON.stringify(sourceFiles));
 
 var lintFiles = [
   'gulpfile.js',
@@ -45,4 +48,45 @@ gulp.task('jshint', function () {
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
+});
+
+// Run everything
+gulp.task('process-all', function (done) {
+  runSequence('jshint', 'test-src', 'build', done);
+});
+
+// watch for changes
+gulp.task('watch', function () {
+  // Watch JavaScript files
+  gulp.watch([sourceFiles], ['process-all']);
+});
+
+// Run test once and exit
+gulp.task('test-src', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('test-dist-concatenated', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma-dist-concatenated.conf.js',
+    singleRun: true
+  }, done);
+});
+
+gulp.task('test-dist-minified', function (done) {
+  karma.start({
+    configFile: __dirname + '/karma-dist-minified.conf.js',
+    singleRun: true
+  }, done);
+});
+
+// Run test once and exit
+gulp.task('default', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
