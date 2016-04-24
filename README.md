@@ -158,7 +158,7 @@ MIT
 
  - `reset && gulp` run tests _(must have {Chromium or Chrome} and Firefox installed locally)_
 
- - before submitting a PR, make sure you sucessfully run:
+ - before submitting a PR, make sure you successfully run:
    * `gulp jshint`
    * `gulp build`
    * `gulp test`
