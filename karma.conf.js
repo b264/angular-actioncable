@@ -19,13 +19,7 @@ module.exports = function(config) {
       'bower_components/angular/angular.js',
       'node_modules/angular-mocks/angular-mocks.js',
       'bower_components/angular-websocket/angular-websocket.js',
-      'src/ngActionCable.js',
-      'src/services/actionCableConfig.js',
-      'src/services/actionCableController.js',
-      'src/services/actionCableWebsocket.js',
-      'src/services/actionCableSocketWrangler.js',
-      'src/services/actionCableChannel.js',
-
+      'src/**/*.js',
       'test/**/*.spec.js'
     ],
 
