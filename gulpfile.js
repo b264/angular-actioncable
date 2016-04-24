@@ -56,28 +56,28 @@ gulp.task('watch', function () {
 });
 
 // Run test once and exit
-gulp.task('test-src', function (done) {
+gulp.task('test', function (done) {
   new Server({
     configFile: __dirname + '/karma.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('test-dist-concatenated', function (done) {
+gulp.task('test-dist', function (done) {
   new Server({
     configFile: __dirname + '/karma-dist-concatenated.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('test-dist-minified', function (done) {
+gulp.task('test-min', function (done) {
   new Server({
     configFile: __dirname + '/karma-dist-minified.conf.js',
     singleRun: true
   }, done).start();
 });
 
-// Run test once and exit
+// Run test once on course files and exit
 gulp.task('default', function (done) {
   new Server({
     configFile: __dirname + '/karma.conf.js',
