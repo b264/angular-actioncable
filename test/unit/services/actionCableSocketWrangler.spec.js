@@ -9,7 +9,4 @@ describe('ActionCableSocketWrangler', function(){
   it("exists", function() {
     expect(ActionCableSocketWrangler).toBeTruthy;
   });
-  it("says Hello to me", function() {
-    expect(ActionCableSocketWrangler.getGreeting("Dave")).toEqual("Hello Dave");
-  });
 });
