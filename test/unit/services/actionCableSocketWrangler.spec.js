@@ -6,7 +6,7 @@ describe('ActionCableSocketWrangler', function(){
   beforeEach(inject(function(_ActionCableSocketWrangler_) {
     ActionCableSocketWrangler= _ActionCableSocketWrangler_;
   }));
-  it("exists", function() {
-    expect(ActionCableSocketWrangler).toBeTruthy;
+  it('exists', function(){
+    expect(ActionCableSocketWrangler).toBeObject;
   });
 });

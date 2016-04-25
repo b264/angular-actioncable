@@ -3,10 +3,10 @@
 describe('ActionCableChannel', function(){
   var ActionCableChannel;
   beforeEach(module('ngActionCable'));
-  beforeEach(inject(function(_ActionCableChannel_) {
+  beforeEach(inject(function(_ActionCableChannel_){
     ActionCableChannel= _ActionCableChannel_;
   }));
-  it("exists", function() {
-    expect(ActionCableChannel).toBeTruthy;
+  it('exists', function(){
+    expect(ActionCableChannel).toBeObject;
   });
 });
