@@ -44,12 +44,13 @@ ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket
   };
   var connection_dead= function(){
     if (_live) { startReconnectInterval(); }
-    if (ActionCableConfig.debug) console.log("close callback");
+    if (ActionCableConfig.debug) console.log("socket close");
   };
   websocket.on_connection_close_callback= connection_dead;
   var connection_alive= function(){
     stopReconnectInterval();
-    if (ActionCableConfig.debug) console.log("open callback");
+    setReconnectTimeout();
+    if (ActionCableConfig.debug) console.log("socket open");
   };
   websocket.on_connection_open_callback= connection_alive;
   var methods= {
@@ -66,7 +67,6 @@ ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket
       if (ActionCableConfig.debug) console.info("Live STARTED");
       _live= true;
       startReconnectInterval();
-      setReconnectTimeout();
       connectNow();
     },
     stop: function(){
