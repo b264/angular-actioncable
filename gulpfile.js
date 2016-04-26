@@ -51,8 +51,7 @@ gulp.task('jshint', function () {
 
 // watch for changes
 gulp.task('watch', function () {
-  // Watch JavaScript files
-  gulp.watch([sourceFiles], ['default']);
+  gulp.watch([sourceFiles], ['build']);
 });
 
 // Run test once and exit
@@ -63,24 +62,19 @@ gulp.task('test', function (done) {
   }, done).start();
 });
 
-gulp.task('test-dist', function (done) {
+gulp.task('test-dist', ['build'], function (done) {
   new Server({
     configFile: __dirname + '/karma-dist-concatenated.conf.js',
     singleRun: true
   }, done).start();
 });
 
-gulp.task('test-min', function (done) {
+gulp.task('test-min', ['build'], function (done) {
   new Server({
     configFile: __dirname + '/karma-dist-minified.conf.js',
     singleRun: true
   }, done).start();
 });
 
-// Run test once on course files and exit
-gulp.task('default', function (done) {
-  new Server({
-    configFile: __dirname + '/karma.conf.js',
-    singleRun: true
-  }, done).start();
-});
+gulp.task('default', ['test', 'watch', 'build']);
+gulp.task('release', ['test', 'test-dist', 'test-min']);
