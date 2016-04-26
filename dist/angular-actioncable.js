@@ -226,6 +226,7 @@ ngActionCable.factory("ActionCableSocketWrangler", function(ActionCableWebsocket
       websocket.close();
     }
   };
+  if (ActionCableConfig.autoStart) methods.start();
   return methods;
 });
 
