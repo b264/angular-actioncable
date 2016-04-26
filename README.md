@@ -159,7 +159,6 @@ my_app.run(function (ActionCableConfig){
 ## License
 MIT
 
-
 ## Setup Development
  - `npm install gulp-cli --global`
  - `npm install -g karma-cli`
@@ -167,16 +166,18 @@ MIT
  - `bower install`
 
  - `gulp jshint` runs jshint over the `/src` javascript files
- - `gulp build` build package in `/dist` folder
+ - `gulp build` builds package in `/dist` folder
+ - `gulp watch` continuously runs `build` on any source file change
 
  - `reset && gulp` run tests _(must have {Chromium or Chrome} and Firefox installed locally)_
 
  - before submitting a PR, make sure you successfully run:
+   * `gulp test`
    * `gulp jshint`
    * `gulp build`
-   * `gulp test`
    * `gulp test-dist`
    * `gulp test-min`
+   or run all above tasks in once call using `gulp release`
 
 ## Publish
  - change the version in `bower.json` and `package.json` and submit a commit named `bump version` to `master` branch
