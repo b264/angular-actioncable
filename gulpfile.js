@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var chai = require('chai');
+var Server = require('karma').Server;
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
@@ -45,4 +47,40 @@ gulp.task('jshint', function () {
     .pipe(jshint())
     .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
+});
+
+// watch for changes
+gulp.task('watch', function () {
+  // Watch JavaScript files
+  gulp.watch([sourceFiles], ['default']);
+});
+
+// Run test once and exit
+gulp.task('test', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('test-dist', function (done) {
+  new Server({
+    configFile: __dirname + '/karma-dist-concatenated.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+gulp.task('test-min', function (done) {
+  new Server({
+    configFile: __dirname + '/karma-dist-minified.conf.js',
+    singleRun: true
+  }, done).start();
+});
+
+// Run test once on course files and exit
+gulp.task('default', function (done) {
+  new Server({
+    configFile: __dirname + '/karma.conf.js',
+    singleRun: true
+  }, done).start();
 });
