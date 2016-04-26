@@ -1,6 +1,6 @@
 var ngActionCable= angular.module('ngActionCable', ['ngWebSocket']);
 
-ngActionCable.factory("ActionCableChannel",function ($q, ActionCableController, ActionCableWebsocket, ActionCableConfig){
+ngActionCable.factory("ActionCableChannel",function ($q, ActionCableController, ActionCableWebsocket, ActionCableConfig, ActionCableSocketWrangler){
   return function(channelName, channelParams){
     this._websocketControllerActions= function(){
       ActionCableController.actions[this.channelName]= ActionCableController.actions[this.channelName] || {};
