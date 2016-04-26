@@ -177,7 +177,8 @@ MIT
    * `gulp build`
    * `gulp test-dist`
    * `gulp test-min`
-   or run all above tasks in once call using `gulp release`
+   
+  or run all above tasks in once call using `gulp release`
 
 ## Publish
  - change the version in `bower.json` and `package.json` and submit a commit named `bump version` to `master` branch
