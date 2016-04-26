@@ -77,4 +77,4 @@ gulp.task('test-min', ['build'], function (done) {
 });
 
 gulp.task('default', ['test', 'watch', 'build']);
-gulp.task('release', ['test', 'test-dist', 'test-min']);
+gulp.task('release', ['test', 'jshint', 'test-dist', 'test-min']);
