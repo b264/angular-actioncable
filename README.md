@@ -9,7 +9,7 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
   <%= action_cable_meta_tag %>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   <script src="bower_components/angular-websocket/angular-websocket.min.js"></script>
-  <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
+  <script src="bower_components/angular-actioncable/dist/angular-actioncable.js"></script>
   <section ng-controller="SomeController">
     <ul>
       <li ng-repeat="datum in myData">
@@ -37,7 +37,7 @@ An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into fro
   <meta name="action-cable-url" content="ws://localhost:3000/cable"/>
   <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular.min.js"></script>
   <script src="bower_components/angular-websocket/angular-websocket.min.js"></script>
-  <script src="bower_components/angular-actioncable/src/angular-actioncable.js"></script>
+  <script src="bower_components/angular-actioncable/dist/angular-actioncable.js"></script>
   <section ng-controller="SomeController">
     <ul>
       <li ng-repeat="datum in myData">
@@ -142,6 +142,11 @@ my_app.run(function (ActionCableConfig){
 
  * *Q.*: What if the browser doesn't support WebSockets?
  * *A.*: This module depends on [angular-websocket](https://github.com/AngularClass/angular-websocket) which will not help; it does not have a fallback story for browsers that do not support WebSockets. Please [check](http://caniuse.com/#feat=websockets) your browser target support.
+
+
+## Examples
+
+ - https://github.com/Neil-Ni/rails5-actioncable-angular-demo - demo project with rails 5 backend and angular frontend
 
 ## License
 MIT
