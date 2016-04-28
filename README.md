@@ -160,17 +160,23 @@ my_app.run(function (ActionCableConfig){
 ## License
 [MIT](https://github.com/angular-actioncable/angular-actioncable/blob/master/LICENSE.txt)
 
-## Setup Development
- - `npm install gulp-cli --global`
+## Setup Development (developed using Node v4.3.1)
+ 
+ - `npm install -g gulp-cli`
  - `npm install -g karma-cli`
  - `npm install`
  - `bower install`
 
  - `gulp jshint` runs jshint over the `/src` javascript files
  - `gulp build` builds package in `/dist` folder
- - `gulp watch` continuously runs `build` on any source file change
-
- - `reset && gulp` run tests _(must have {Chromium or Chrome} and Firefox installed locally)_
+ - `gulp watch` continuously runs `gulp build` on any change of the `/src` files
+ - 
+ - `gulp test` run tests on `/src` files (must have {Chromium or Chrome} and Firefox installed locally)
+ - `gulp test-dist` run tests on `/dist/angular-actioncable.js` files (must have {Chromium or Chrome} and Firefox installed locally)
+ - `gulp test-min` run tests on `/dist/angular-actioncable.min.js` files (must have {Chromium or Chrome} and Firefox installed locally)
+  
+ - `gulp serve` runs `gulp test`, `gulp watch` and `gulp build`
+ - `gulp release` runs `gulp jshint`, `gulp test`, `gulp build`, `gulp test-dist` and `gulp test-min` in this order
 
  - before submitting a PR, make sure you successfully run:
    * `gulp test`
