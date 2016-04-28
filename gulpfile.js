@@ -76,5 +76,6 @@ gulp.task('test-min', ['build'], function (done) {
   }, done).start();
 });
 
-gulp.task('default', ['test', 'watch', 'build']);
-gulp.task('release', ['test', 'jshint', 'test-dist', 'test-min']);
+gulp.task('serve', ['test', 'watch', 'build']);
+gulp.task('release', ['test', 'jshint', 'test-dist', 'test-min']); //runs `build` too as task dependency
+gulp.task('default', []);
