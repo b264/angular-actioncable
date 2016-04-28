@@ -78,3 +78,4 @@ gulp.task('test-min', ['build'], function (done) {
 
 gulp.task('serve', ['test', 'watch', 'build']);
 gulp.task('release', ['test', 'jshint', 'test-dist', 'test-min']); //runs `build` too as task dependency
+gulp.task('default', []);
