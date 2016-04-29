@@ -205,15 +205,6 @@ ngActionCable.factory("ActionCableSocketWrangler", function($rootScope, ActionCa
   };
   websocket.on_connection_open_callback= connection_alive;
   var methods= {
-    connected: function(){
-      return (_live && !_connecting);
-    },
-    connecting: function(){
-      return (_live && !!_connecting);
-    },
-    disconnected: function(){
-      return !_live;
-    },
     start: function(){
       if (ActionCableConfig.debug) console.info("Live STARTED");
       _live= true;
@@ -228,6 +219,25 @@ ngActionCable.factory("ActionCableSocketWrangler", function($rootScope, ActionCa
       websocket.close();
     }
   };
+
+  Object.defineProperties(methods, {
+    connected: {
+      get: function () {
+        return (_live && !_connecting);
+      }
+    },
+    connecting: {
+      get: function () {
+        return (_live && !!_connecting);
+      }
+    },
+    disconnected: {
+      get: function(){
+        return !_live;
+      }
+    }
+  });
+
   if (ActionCableConfig.autoStart) methods.start();
   return methods;
 });
