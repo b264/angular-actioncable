@@ -21,7 +21,7 @@ var sourceFiles = [
 ];
 
 var lintFiles = [
-  'gulpfile.js',
+  'gulpfile.js'
   // Karma configuration
   // 'karma-*.conf.js'
 ].concat(sourceFiles);
