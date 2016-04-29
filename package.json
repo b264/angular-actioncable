@@ -30,6 +30,7 @@
   },
   "devDependencies": {
     "angular-mocks": "^1.5.5",
+    "bower": "^1.7.9",
     "chai": "^3.5.0",
     "event-stream": "^3.3.2",
     "gulp": "^3.9.1",
@@ -48,6 +49,7 @@
     "karma-firefox-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.8",
     "karma-jasmine-matchers": "^2.0.2",
+    "karma-mocha-reporter": "^2.0.2",
     "karma-phantomjs-launcher": "^1.0.0",
     "phantomjs-prebuilt": "^2.1.7"
   }
