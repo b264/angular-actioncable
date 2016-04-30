@@ -1,3 +1,8 @@
+## 1.0.0-beta2  First release
+
+Bugfixes:
+  - "1.0.0.beta1" does not validate http://semver.org/spec/v2.0.0.html
+
 ## 1.0.0.beta1  Properties are not functions
 
 Features:
