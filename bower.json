@@ -1,6 +1,6 @@
 {
   "name": "angular-actioncable",
-  "version": "1.0.0.beta1",
+  "version": "1.0.0-beta2",
   "description": "Connect Angular to ActionCable",
   "main": "./dist/angular-actioncable.js",
   "authors": [
