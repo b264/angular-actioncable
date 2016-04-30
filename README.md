@@ -109,7 +109,7 @@ name        | arguments                                                | descrip
 new         | channelName:String<br />channelParams:Hash:_optional_<br />_returns instance_    | Creates and opens an ActionCableChannel instance.<br />`var consumer = new ActionCableChannel('MyChannel', {widget_id: 17});`
 subscribe   | callback:Function<br />_returns promise_                 | Subscribes a callback function to the channel.<br />`consumer.subscribe(function(message){ $scope.thing = message });`
 unsubscribe | <br />_returns promise_                                  | Unsubscribes the callback function from the channel.<br />`consumer.unsubscribe();`
-send        | message:String<br />action:String<br />_returns promise_ | Send a message to an action in Rails. The action is the method name in Ruby.<br />`consumer.send('message', 'action');`
+send        | message:String<br />action:String:_optional_<br />_returns promise_ | Send a message to an action in Rails. The action is the method name in Ruby.<br />`consumer.send('message');`
 
 ### Factory: `ActionCableSocketWrangler`
 
@@ -125,11 +125,11 @@ stop        |                                                        | Stops ngA
 
 _Exactly one will be true at all times._
 
-name             | type              | description
------------------|-------------------|------------
-connected        | Function:Boolean  | ngActionCable is started and connected live.<br />`ActionCableSocketWrangler.connected();`
-connecting       | Function:Boolean  | ngActionCable is started and trying to establish a connection.<br />`ActionCableSocketWrangler.connecting();`
-disconnected     | Function:Boolean  | ngActionCable is stopped and not connected.<br />`ActionCableSocketWrangler.disconnected();`
+name             | type             | description
+-----------------|------------------|------------
+connected        | Property:Boolean | ngActionCable is started and connected live.<br />`ActionCableSocketWrangler.connected;`
+connecting       | Property:Boolean | ngActionCable is started and trying to establish a connection.<br />`ActionCableSocketWrangler.connecting;`
+disconnected     | Property:Boolean | ngActionCable is stopped and not connected.<br />`ActionCableSocketWrangler.disconnected;`
 
 ### Configuration: `ActionCableConfig`
 
