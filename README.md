@@ -187,6 +187,7 @@ my_app.run(function (ActionCableConfig){
    or run all above tasks using `gulp release`
 
 ## Publish
+ - update the changelog with the new version; commit & push to master
  - change the version in `bower.json` and `package.json` and `README.md` (5 occurrences) and push a commit named `bump version` to `master` branch
  - tag a new release with the new version in github (bower will use this)
  - publish to npm: pull master, `npm login`, `npm publish`
