@@ -1,4 +1,10 @@
-# angular-actioncable [![Build Status](https://travis-ci.org/angular-actioncable/angular-actioncable.svg?branch=master)](https://travis-ci.org/angular-actioncable/angular-actioncable)
+[![Tag](https://img.shields.io/github/tag/angular-actioncable/angular-actioncable.svg?style=flat)](https://github.com/angular-actioncable/angular-actioncable/releases)
+[![npm downloads](https://img.shields.io/npm/dm/angular-actioncable.svg?style=flat&label=npm+downloads)](https://www.npmjs.com/package/angular-actioncable)
+[![Bower version](https://img.shields.io/bower/v/angular-actioncable.svg?maxAge=2592000?color=green&style=flat)](https://github.com/angular-actioncable/angular-actioncable/releases)
+[![Build Status](https://travis-ci.org/angular-actioncable/angular-actioncable.svg?branch=master)](https://travis-ci.org/angular-actioncable/angular-actioncable)
+[![License](http://img.shields.io/license/MIT.png?color=green&style=flat)](http://opensource.org/licenses/MIT)
+# angular-actioncable
+
 An Angular 1.x service for seamlessly integrating Rails 5 (ActionCable) into frontend Angular code.
 
 <p align="center"><img src="https://cdn.rawgit.com/angular/angular.js/d71dc2f5afec230711351e9f160873a41eb60597/images/logo/AngularJS-Shield.exports/AngularJS-Shield-medium.png" alt="AngularJS"/>&nbsp;&nbsp;<img src="https://rawgit.com/angular-actioncable/angular-actioncable/b6acb7042a39796a7ffa951053145a451d00b8bb/images/gemstone_supported_by_tracks.png" alt="Ruby" /></p>
@@ -164,35 +170,5 @@ my_app.run(function (ActionCableConfig){
 ## License
 [MIT](https://github.com/angular-actioncable/angular-actioncable/blob/master/LICENSE.txt)
 
-## Setup Development (developed using Node v4.3.1)
-
- - `npm install -g gulp-cli`
- - `npm install -g karma-cli`
- - `npm install`
-
- - `gulp jshint` runs jshint over the `/src` javascript files
- - `gulp build` builds package in `/dist` folder
- - `gulp watch` continuously runs `gulp build` on any change of the `/src` files
- -
- - `gulp test` run tests on `/src` files (must have {Chromium or Chrome} and Firefox installed locally)
- - `gulp test-dist` run tests on `/dist/angular-actioncable.js` files (must have {Chromium or Chrome} and Firefox installed locally)
- - `gulp test-min` run tests on `/dist/angular-actioncable.min.js` files (must have {Chromium or Chrome} and Firefox installed locally)
-
- - `gulp serve` runs `gulp test`, `gulp watch` and `gulp build`
- - `gulp release` runs `gulp jshint`, `gulp test`, `gulp build`, `gulp test-dist` and `gulp test-min` in this order
-
- - before submitting a PR, make sure you successfully run:
-   * `gulp test`
-   * `gulp jshint`
-   * `gulp build`
-   * `gulp test-dist`
-   * `gulp test-min`
-
-   or run all above tasks using `gulp release`
-
-## Publish
- - update the changelog with the new version; commit & push to master
- - change the version in `bower.json` and `package.json` and `README.md` (5 occurrences) and push a commit named `bump version` to `master` branch
- - tag a new release with the new version in github (bower will use this)
- - fetch upstream
- - publish to npm: pull master, `npm login`, `npm publish`
+#### Development
+[Setup development](https://github.com/angular-actioncable/angular-actioncable/blob/master/DEVELOPMENT.md)
