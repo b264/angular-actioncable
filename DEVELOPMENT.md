@@ -1,4 +1,3 @@
-## Readme
 [Back to readme](https://github.com/angular-actioncable/angular-actioncable/blob/master/README.md)
 
 ## Setup Development (developed using Node v4.3.1)
