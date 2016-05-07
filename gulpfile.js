@@ -82,11 +82,12 @@ gulp.task('test-min', ['build'], function (done) {
   }, done).start();
 });
 
-gulp.task('serve', ['test', 'watch', 'build']);
-gulp.task('release', ['test', 'jshint', 'test-dist'], function(done){
+gulp.task('release', ['jshint', 'test', 'test-dist'], function(done){
   gulp.task('test-min');
   done();
 }); //runs `build` too as task dependency
+
+gulp.task('serve', ['test', 'watch', 'build']);
 gulp.task('default', []);
 
 
