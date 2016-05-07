@@ -9,6 +9,7 @@ var clean = require('gulp-clean');
 var path = require('path');
 var plumber = require('gulp-plumber');
 var jshint = require('gulp-jshint');
+var exec = require('child_process').exec;
 var eventStream = require('event-stream');
 
 // Root directory
@@ -82,8 +83,18 @@ gulp.task('test-min', ['build'], function (done) {
   }, done).start();
 });
 
+
+
+gulp.task('release', function(done){
+  exec('gulp test && gulp build && gulp jshint && gulp test-dist && gulp test-min', function (err, stdout, stderr) {
+    console.log(stdout);
+    console.log(stderr);
+    // cb(err);
+  });
+})
+
+
 gulp.task('serve', ['test', 'watch', 'build']);
-gulp.task('release', ['test', 'jshint', 'test-dist', 'test-min']); //runs `build` too as task dependency
 gulp.task('default', []);
 
 
