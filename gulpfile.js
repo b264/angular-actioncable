@@ -5,6 +5,7 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var ngAnnotate = require('gulp-ng-annotate');
+var clean = require('gulp-clean');
 var path = require('path');
 var plumber = require('gulp-plumber');
 var jshint = require('gulp-jshint');
@@ -28,7 +29,7 @@ var lintFiles = [
 
 
 // Build JavaScript distribution files
-gulp.task('build', function() {
+gulp.task('build', ['clean'], function() {
   return eventStream.merge(gulp.src(sourceFiles))
     .pipe(plumber())
     .pipe(concat('angular-actioncable.js'))
@@ -39,6 +40,11 @@ gulp.task('build', function() {
     .pipe(gulp.dest('./dist/'));
 });
 
+// removes the dist folder
+gulp.task('clean', function () {
+  return gulp.src('dist', {read: false})
+    .pipe(clean());
+});
 
 // Validate source JavaScript
 gulp.task('jshint', function () {
@@ -79,3 +85,8 @@ gulp.task('test-min', ['build'], function (done) {
 gulp.task('serve', ['test', 'watch', 'build']);
 gulp.task('release', ['test', 'jshint', 'test-dist', 'test-min']); //runs `build` too as task dependency
 gulp.task('default', []);
+
+
+
+
+
