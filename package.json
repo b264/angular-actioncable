@@ -8,12 +8,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/angular-actioncable/angular-actioncable.git"
+    "url": "git@github.com:angular-actioncable/angular-actioncable.git"
   },
   "keywords": [
-    "angular",
     "actioncable",
-    "rails"
+    "angular",
+    "angular-actioncable",
+    "angular-cable",
+    "cable",
+    "ng-actioncable",
+    "ng-cable",
+    "ng-rails",
+    "rails",
+    "websocket"
   ],
   "contributors": [
     "Brian Giaraffa",
