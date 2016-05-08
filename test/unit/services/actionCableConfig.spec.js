@@ -2,7 +2,7 @@
 
 describe('ActionCableConfig', function(){
   var ActionCableConfig;//,
-      //spy,
+  var element_spy, attr_spy;
       //ngElementFake;
   var init= function(){
     beforeEach(module('ngActionCable'));
@@ -61,7 +61,7 @@ describe('ActionCableConfig', function(){
           //  ActionCableConfig= _ActionCableConfig_;
           //})
         //});
-        init();
+        //init();
         it('returns meta value', function(){
           expect(ActionCableConfig.wsUri).toBe('wss://foobar.tld:1234/path/name');
         });
@@ -83,15 +83,22 @@ describe('ActionCableConfig', function(){
           attr= 'foooddf'; //{
             //content: 'foo'
           //};
-          spyOn(angular, 'element').and.returnValue(element);
-          spyOn(element, 'attr').and.returnValue(attr);
+          element_spy= spyOn(angular, 'element').and.returnValue(element);
+          attr_spy= spyOn(element, 'attr').and.returnValue(attr);
 
           //inject(function(_ActionCableConfig_){
           //  ActionCableConfig= _ActionCableConfig_;
           //});
           init();
+          //inject(function(_ActionCableConfig_){
+           // ActionCableConfig= _ActionCableConfig_;
+          //});
           expect(angular.element).toHaveBeenCalledWith("meta[name='action-cable-url']");
           expect(element.attr).toHaveBeenCalledWith("content");
+        });
+        afterEach(function(){
+          element_spy.andCallThrough();
+          attr_spy.andCallThrough();
         });
         it('returns empty', function(){
           expect(ActionCableConfig.wsUri).toBe('foobarz');
